@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-# Tsung-Yi Lin <tl483@cornell.edu>
-# Ramakrishna Vedantam <vrama91@vt.edu>
-
 import copy
 import pickle
 from collections import defaultdict
@@ -118,7 +114,7 @@ class Cider:
     Main Class to compute the CIDEr metric
 
     """
-    def __init__(self, n=1, df="coco-val-df"):
+    def __init__(self, n=4, df="coco-val-df"):
         """
         Initialize the CIDEr scoring function
         : param n (int): n-gram size
@@ -158,4 +154,3 @@ class Cider:
 
     def method(self):
         return "CIDEr"
-    
