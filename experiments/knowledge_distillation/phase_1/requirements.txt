@@ -1,4 +1,4 @@
-unsloth
+unsloth==2025.5.4
 accelerator
 wandb
 torch

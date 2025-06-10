@@ -1,12 +1,13 @@
 from unsloth import FastVisionModel
 from unsloth.trainer import UnslothVisionDataCollator
-from unsloth import is_bf16_supported
+# from unsloth import is_bf16_supported
 from trl import SFTTrainer, SFTConfig
-from transformers import EarlyStoppingCallback
+# from transformers import EarlyStoppingCallback
 import torch
 
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 from PIL import Image, ImageFile
+import random
 import json
 import os
 
@@ -42,8 +43,16 @@ def dataset_split(json_path, test_size=0.2, random_state=42):
         }
         data_list.append(entry)
 
-    train_data, test_val_data = train_test_split(data_list, test_size=test_size, random_state=random_state)
-    val_data, test_data = train_test_split(test_val_data, test_size=0.5, random_state=random_state)
+    # train_data, test_val_data = train_test_split(data_list, test_size=test_size, random_state=random_state)
+    # val_data, test_data = train_test_split(test_val_data, test_size=0.5, random_state=random_state)
+
+    test_data = data_list[:200]
+    remaining = data_list[200:]
+
+    random.seed(random_state)
+    random.shuffle(remaining)
+    train_data = remaining[:1800]
+    val_data = remaining[1800:]
 
     return train_data, val_data, test_data
 
@@ -196,7 +205,7 @@ def upload_to_huggingface_hub(model, processor):
 
 # Main execution
 if __name__ == "__main__":
-    login(token="hf_XXXXXXXXXXXXX")
+    login(token="hf_XXXXXXXXXXXxXX")  # Replace with your Hugging Face token
 
     print("Loading dataset...")
     train_data, val_data, test_data = dataset_split(JSON_FILE_PATH, test_size=0.2, random_state=42)
