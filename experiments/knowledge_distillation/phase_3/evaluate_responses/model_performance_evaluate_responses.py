@@ -1,11 +1,15 @@
 import wandb
 import numpy as np
+import pandas as pd
 
 from pycocoevalcap.cider.cider import Cider
 from pycocoevalcap.spice.spice import Spice
 from sentence_transformers import SentenceTransformer, util
 
 
+# ----------------------------------------------------------------------------
+# wandb configuration and fetching artifacts
+# ----------------------------------------------------------------------------
 wandb.login()
 run = wandb.init(project="Model Performance Comparison", name="Standard Metrics-Exp-2", entity="vlm-research")
 
@@ -15,10 +19,22 @@ table_qwen = artifact_qwen.get("Image JSON Table")
 artifact_gemma = wandb.use_artifact("vlm-research/Model Performance Comparison/run-khp3a3d3-predictions_table:v0")
 table_gemma = artifact_gemma.get("predictions_table")
 
-new_columns = table_qwen.columns + ["gemma_response", "cider_score", "spice_score", "cosine_similarity"]
-new_table = wandb.Table(columns=new_columns)
+# ----------------------------------------------------------------------------
+# Load ground truth captions from CSV
+# ----------------------------------------------------------------------------
+csv_path = "random_3000_rows.csv"
+df_gt = pd.read_csv(csv_path)
 
+gt_map = {}
+for _, row in df_gt.iterrows():
+    wandb_img_path = "image_dataset/" + row['filename']
+    if wandb_img_path not in gt_map:
+        gt_map[wandb_img_path] = []
+    gt_map[wandb_img_path].append(str(row['captions']))
 
+# ----------------------------------------------------------------------------
+# Functions to format data for evaluation metrics
+# ----------------------------------------------------------------------------
 def format_for_pycocoevalcap(candidates, references_lists):
     gts = {}
     res = {}
@@ -32,7 +48,20 @@ def format_for_pycocoevalcap(candidates, references_lists):
         res[sample_id] = [{"caption": candidates[i]}]
     return gts, res
 
+def extract_model_response(response):
+    """
+    Extracts the first string enclosed in double quotes or curly quotes from the model's response.
+    """
+    import re
+    match = re.search(r'["“](.+?)["”]', response)
+    if match:
+        return match.group(1).strip()
+    return response.strip()
 
+
+# ----------------------------------------------------------------------------
+# Functions to calculate CIDER, Cosine Similarity, and SPICE
+# ----------------------------------------------------------------------------
 def calculate_cider(candidates, references_lists):
     gts, res = format_for_pycocoevalcap(candidates, references_lists)
     scorer = Cider()
@@ -69,73 +98,130 @@ def calculate_spice(candidates, references_lists, stanford_corenlp_home=None):
         score, scores_per_instance = scorer.compute_score(gts_spice, res_spice)
     except Exception as e:
         print(f"Error calculating SPICE: {e}")
-        print("Ensure Stanford CoreNLP is correctly set up (jars accessible, sufficient memory).")
-        print("Try setting SPICE_JAR and STANFORD_CORENLP_MODELS_JAR environment variables.")
-        print("Or, place stanford-corenlp-X.X.X.jar and stanford-corenlp-X.X.X-models.jar")
-        print("in pycocoevalcap/spice/lib/ (you might need to create this path).")
         return None, None
     return score, scores_per_instance
 
 
-def extract_model_response(response):
-    """
-    Extracts the first string enclosed in double quotes or curly quotes from the model's response.
-    """
-    import re
-    # Match text inside standard or curly double quotes (handles **"..."**, **“...”**, etc.)
-    match = re.search(r'["“](.+?)["”]', response)
-    if match:
-        return match.group(1).strip()
-    return response.strip()
+def max_metric_over_refs(candidate, references, cider_scorer, spice_scorer, st_model, stanford_corenlp_home=None):
+    if not references:
+        return 0.0, 0.0, 0.0
+    
+    # CIDER
+    cider_scores = []
+    for ref in references:
+        _, scores = cider_scorer.compute_score({0: [ref]}, {0: [candidate]})
+        cider_scores.append(scores[0])
+    max_cider = max(cider_scores)
+
+    # SPICE
+    spice_scores = []
+    for ref in references:
+        try:
+            _, scores = spice_scorer.compute_score({0: [ref]}, {0: [candidate]})
+            spice_scores.append(scores[0]['All']['f'])
+        except Exception:
+            spice_scores.append(0.0)
+    max_spice = max(spice_scores)
+
+    # Cosine Similarity
+    cand_emb = st_model.encode(candidate, convert_to_tensor=True)
+    ref_embs = st_model.encode(references, convert_to_tensor=True)
+    cos_scores = util.pytorch_cos_sim(cand_emb, ref_embs)[0].cpu().numpy()
+    max_cosine = float(np.max(cos_scores))
+    return float(max_cider), float(max_spice), float(max_cosine)
 
 
+# ----------------------------------------------------------------------------
+# Main execution block
+# ----------------------------------------------------------------------------
 if __name__ == "__main__":
-    # Only use the first 200 rows from Qwen and Gemma tables
     qwen_data = table_qwen.data[:200]
     gemma_data = table_gemma.data[:200]
 
     qwen_responses = []
     gemma_responses = []
+    image_paths = []
+    images = []
 
     for row_qwen, row_gemma in zip(qwen_data, gemma_data):
-        qwen_response = row_qwen[table_qwen.columns.index("teacher_response")]
+        qwen_raw = row_qwen[table_qwen.columns.index("teacher_response")]
         gemma_raw = row_gemma[table_gemma.columns.index("prediction")]
+
         gemma_response = extract_model_response(gemma_raw)
+        qwen_response = extract_model_response(qwen_raw)
+
+        image_path = row_qwen[table_qwen.columns.index("image_path")]
+        image = row_qwen[table_qwen.columns.index("image")]
+
         qwen_responses.append(qwen_response)
         gemma_responses.append(gemma_response)
-        
-    candidates = gemma_responses
-    references_lists = [[ref] for ref in qwen_responses]
+        image_paths.append(image_path)
+        images.append(image)
 
-    print("--- Calculating CIDER ---")
-    cider_score, cider_scores_per_instance = calculate_cider(candidates, references_lists)
-    if cider_score is not None:
-        print(f"Overall CIDER score: {cider_score:.4f}")
+    # Prepare ground truth captions for each image
+    ground_truth_lists = [gt_map.get(path, []) for path in image_paths]
 
-    print("\n--- Calculating Cosine Similarity (Sentence Transformers) ---")
-    avg_cos_sim_st, cos_sim_st_per_instance = calculate_cosine_similarity_st(candidates, references_lists)
-    cos_sim_st_per_instance_python = [float(x) for x in cos_sim_st_per_instance]
-    print(f"Overall Average Cosine Similarity (Sentence Transformers): {avg_cos_sim_st:.4f}")
-    
-    print("\n--- Calculating SPICE ---")
-    stanford_path = "/workspace/nlp_tools/stanford-corenlp-4.5.9"
-    spice_score, spice_scores_per_instance = calculate_spice(candidates, references_lists, stanford_corenlp_home=stanford_path)
-    if spice_score is not None:
-        print(f"Overall SPICE score: {spice_score:.4f}")
-        spice_f_scores = [instance['All']['f'] for instance in spice_scores_per_instance]
-    else:
-        spice_f_scores = [0.0] * len(candidates)
+    # Prepare qwen as reference for gemma-vs-qwen
+    qwen_refs = [[ref] for ref in qwen_responses]
 
-    # Use zip to avoid index errors if the data is shorter than 200
-    for row, gemma_response, cider, spice, cos_sim in zip(
-            qwen_data, gemma_responses, cider_scores_per_instance, spice_f_scores, cos_sim_st_per_instance_python):
-        new_row = row + [
-            gemma_response,
-            float(cider),
-            float(spice),
-            float(cos_sim)
-        ]
-        new_table.add_data(*new_row)
+    # Prepare scorers/models
+    cider_scorer = Cider()
+    spice_scorer = Spice()
+    st_model = SentenceTransformer('all-MiniLM-L6-v2')
+    stanford_path = "/workspace/nlp_tools/stanford-corenlp-4.5.10"
 
-    run.log({"evaluation_results": new_table})
+    # Calculate scores
+    qwen_gt_cider, qwen_gt_spice, qwen_gt_cosine = [], [], []
+    gemma_gt_cider, gemma_gt_spice, gemma_gt_cosine = [], [], []
+    gemma_qwen_cider, gemma_qwen_spice, gemma_qwen_cosine = [], [], []
+
+    for i in range(len(image_paths)):
+        gt_captions = ground_truth_lists[i]
+        qwen_resp = qwen_responses[i]
+        gemma_resp = gemma_responses[i]
+        # Qwen vs GT
+        c, s, cos = max_metric_over_refs(qwen_resp, gt_captions, cider_scorer, spice_scorer, st_model, stanford_corenlp_home=stanford_path)
+        qwen_gt_cider.append(c)
+        qwen_gt_spice.append(s)
+        qwen_gt_cosine.append(cos)
+        # Gemma vs GT
+        c, s, cos = max_metric_over_refs(gemma_resp, gt_captions, cider_scorer, spice_scorer, st_model, stanford_corenlp_home=stanford_path)
+        gemma_gt_cider.append(c)
+        gemma_gt_spice.append(s)
+        gemma_gt_cosine.append(cos)
+    # Gemma vs Qwen (single reference)
+    # Use batch scoring for efficiency
+    gemma_qwen_cider_score, gemma_qwen_cider_scores = calculate_cider(gemma_responses, qwen_refs)
+    _, gemma_qwen_cosine_scores = calculate_cosine_similarity_st(gemma_responses, qwen_refs)
+    _, gemma_qwen_spice_scores = calculate_spice(gemma_responses, qwen_refs, stanford_corenlp_home=stanford_path)
+    gemma_qwen_spice_f = [instance['All']['f'] for instance in gemma_qwen_spice_scores] if gemma_qwen_spice_scores else [0.0]*len(gemma_responses)
+
+    # ----------------------------------------------------------------------------
+    # Build and log the new table
+    # ----------------------------------------------------------------------------
+    new_columns = [
+        "image_path", "image", "ground_truth_captions", "qwen_response", "gemma_response",
+        "qwen_gt_cider", "qwen_gt_spice", "qwen_gt_cosine",
+        "gemma_gt_cider", "gemma_gt_spice", "gemma_gt_cosine",
+        "gemma_qwen_cider", "gemma_qwen_spice", "gemma_qwen_cosine"
+    ]
+    new_table = wandb.Table(columns=new_columns)
+    for i in range(len(image_paths)):
+        new_table.add_data(
+            image_paths[i],
+            images[i],
+            ground_truth_lists[i],
+            qwen_responses[i],
+            gemma_responses[i],
+            float(qwen_gt_cider[i]),
+            float(qwen_gt_spice[i]),
+            float(qwen_gt_cosine[i]),
+            float(gemma_gt_cider[i]),
+            float(gemma_gt_spice[i]),
+            float(gemma_gt_cosine[i]),
+            float(gemma_qwen_cider_scores[i]),
+            float(gemma_qwen_spice_f[i]),
+            float(gemma_qwen_cosine_scores[i])
+        )
+    run.log({"evaluation_results_v2": new_table})
     run.finish()

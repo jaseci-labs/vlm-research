@@ -10,8 +10,8 @@ from sentence_transformers import SentenceTransformer, util
 
 
 wandb.login()
-run = wandb.init(project="Model Performance Comparison", name="Standard Metrics-Exp-2", entity="vlm-research")
-artifact = wandb.use_artifact("vlm-research/Gemma 3 4B Distillation Phase 2/run-o9zbcvrv-VQAComparisonTable:v0")
+run = wandb.init(project="Distillation with RSICD", name="Test Unfinetuned Evaluation", entity="vlm-research")
+artifact = wandb.use_artifact("vlm-research/Distillation with RSICD/run-ih74wsxh-VQAComparisonTable-8de5811af55dcf94ed95e6eacbc31db9:v0")
 table = artifact.get("VQA Comparison Table")
 new_columns = table.columns + ["cider_score", "spice_score", "cosine_similarity"]
 new_table = wandb.Table(columns=new_columns)
@@ -24,12 +24,24 @@ def extract_json(response_str):
         json_part = match.group(0)
         try:
             parsed = json.loads(json_part)
-            return parsed.get("report")
+            return parsed.get("caption")
         except json.JSONDecodeError as e:
             print("JSON decode error:", e)
     else:
         print("No JSON found.")
     return None
+
+
+def extract_model_response(response_str):
+    """
+    Extracts the main model response from a baseline_prediction string.
+    Assumes the model response is the text after the first occurrence of 'model' (case-insensitive),
+    or after a specific marker, or simply returns the input if no marker is found.
+    """
+    match = re.search(r'model\s*[\n:]*\s*(.*)', response_str, re.IGNORECASE | re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return response_str.strip()
 
 
 def format_for_pycocoevalcap(candidates, references_lists):
@@ -137,10 +149,11 @@ if __name__ == "__main__":
 
     for row in table.data:
         try:
-            model_response = row[table.columns.index("finetuned_prediction")]
+            model_response = row[table.columns.index("baseline_prediction")]
             teacher_response = row[table.columns.index("teacher_prediction")]
 
-            model_report = extract_json(model_response)
+            # Use extract_model_response for baseline_prediction
+            model_report = extract_model_response(model_response)
             teacher_report = extract_json(teacher_response)
 
             model_reports.append(model_report)
