@@ -1,13 +1,12 @@
 from unsloth import FastVisionModel
 from unsloth.trainer import UnslothVisionDataCollator
-# from unsloth import is_bf16_supported
+from unsloth import is_bf16_supported
 from trl import SFTTrainer, SFTConfig
-# from transformers import EarlyStoppingCallback
+from transformers import EarlyStoppingCallback
 import torch
 
-# from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
 from PIL import Image, ImageFile
-import random
 import json
 import os
 
@@ -16,8 +15,8 @@ import wandb
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 wandb.init(
-    project="Distillation with RSICD",
-    name="Fine-tune with RSICD",
+    project="Gemma 3 4B Distillation Phase 2",
+    name="Model 8 bit quantization",
     group="gemma tests",
     tags=["gemma","vision", "finetune"],
     notes="Testing gemma 3 4B Unsloth",
@@ -27,9 +26,9 @@ wandb.init(
 )
 
 MODEL_NAME = "unsloth/gemma-3-4b-it"
-JSON_FILE_PATH = "image_dataset/res.json"
+JSON_FILE_PATH = "res.json"
 IMAGES_PATH = "image_dataset"
-instruction = "Analyze the remote sensing image."
+instruction = "Descibe the damages of the car.",
 
 def dataset_split(json_path, test_size=0.2, random_state=42):
     with open(json_path, "r") as f:
@@ -43,16 +42,8 @@ def dataset_split(json_path, test_size=0.2, random_state=42):
         }
         data_list.append(entry)
 
-    # train_data, test_val_data = train_test_split(data_list, test_size=test_size, random_state=random_state)
-    # val_data, test_data = train_test_split(test_val_data, test_size=0.5, random_state=random_state)
-
-    test_data = data_list[:200]
-    remaining = data_list[200:]
-
-    random.seed(random_state)
-    random.shuffle(remaining)
-    train_data = remaining[:1800]
-    val_data = remaining[1800:]
+    train_data, test_val_data = train_test_split(data_list, test_size=test_size, random_state=random_state)
+    val_data, test_data = train_test_split(test_val_data, test_size=0.5, random_state=random_state)
 
     return train_data, val_data, test_data
 
@@ -63,17 +54,13 @@ def convert_to_conversation(phase, sample):
                 {
                     "role": "user",
                     "content": [
-                        {
-                            "type": "text",
-                            "text": "Analyze the remote sensing image and generate a descriptive caption based on the given visual scene:\n" +
-                                    json.dumps(sample["caption"]["visual_scene"], indent=2)
-                        },
+                        {"type": "text", "text": json.dumps(sample["caption"]["predictions"], indent=2)},
                         {"type": "image", "image": sample["image"]},
                     ],
                 },
                 {
                     "role": "assistant",
-                    "content": [{"type": "text", "text": sample["caption"]["caption"]}],
+                    "content": [{"type": "text", "text": json.dumps(sample["caption"]["report"], indent=2)}],
                 },
             ]
         }
@@ -89,10 +76,7 @@ def convert_to_conversation(phase, sample):
                 },
                 {
                     "role": "assistant",
-                    "content": [{"type": "text", "text": json.dumps({
-                        "visual_scene": sample["caption"]["visual_scene"],
-                        "caption": sample["caption"]["caption"]
-                    }, indent=2)}],
+                    "content": [{"type": "text", "text": json.dumps(sample["caption"], indent=2)}],
                 },
             ]
         }
@@ -111,8 +95,8 @@ def get_custom_dataset(data, phase):
                     convert_to_conversation(
                         phase=phase, 
                         sample={"image": image, "caption": {
-                                "visual_scene": sample["visual_scene"],
-                                "caption": sample["caption"]
+                                "predictions": sample["predictions"],
+                                "report": sample["report"]
                             }
                         }
                     )
@@ -128,6 +112,7 @@ def configure_model(MODEL_NAME):
     model, tokenizer = FastVisionModel.from_pretrained(
         MODEL_NAME,
         load_in_4bit = False,
+        load_in_8bit = True,
         use_gradient_checkpointing = "unsloth",
     )
 
@@ -186,7 +171,7 @@ def configuration_for_training(model, tokenizer, train_data, val_data, epochs=1)
             max_seq_length = 2048,
             eval_strategy="steps",
             eval_steps=2,
-        ),
+    ),
     # load_best_model_at_end=True,
     # metric_for_best_model="eval_loss",
     # callbacks=callbacks,
@@ -199,17 +184,16 @@ def save_finetuned_model(model, tokenizer, model_name):
 
 
 def upload_to_huggingface_hub(model, processor):
-    model.push_to_hub("Malitha/Gemma3-4B-rsicd-phase-3-exp-1")
-    processor.push_to_hub("Malitha/Gemma3-4B-rsicd-phase-3-exp-1")
+    model.push_to_hub("Malitha/Gemma3-car-damage-model-4B")
+    processor.push_to_hub("Malitha/Gemma3-car-damage-model-4B")
 
 
 # Main execution
 if __name__ == "__main__":
-    login(token="hf_XXXXXXXXXXXxXX")  # Replace with your Hugging Face token
+    login(token="hf_XXXXXXXXXXXXXXXX")
 
     print("Loading dataset...")
     train_data, val_data, test_data = dataset_split(JSON_FILE_PATH, test_size=0.2, random_state=42)
-
     with open("test_data.json", "w") as f:
         json.dump(test_data, f, indent=2)
     print(f"Train data size: {len(train_data)}, Validation data size: {len(val_data)}, Test data size: {len(test_data)}")
@@ -224,14 +208,14 @@ if __name__ == "__main__":
     model, tokenizer = configure_model(MODEL_NAME)
     
     # Training for the phase 1
-    trainer_phase_1 = configuration_for_training(model, tokenizer, train_data_phase_1, val_data_phase_1, 1)
+    trainer_phase_1 = configuration_for_training(model, tokenizer, train_data_phase_1, val_data_phase_1, 3)
     print("Phase 1 Finetuning Starting...")
     trainer_phase_1.train()
     used_memory_phase_1 = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
     print(f"Peak reserved memory Phase 1 = {used_memory_phase_1} GB.")
 
     # Training for the phase 2
-    trainer_phase_2 = configuration_for_training(model, tokenizer, train_data_phase_2, val_data_phase_2, 3)
+    trainer_phase_2 = configuration_for_training(model, tokenizer, train_data_phase_2, val_data_phase_2, 10)
     print("Phase 2 Finetuning Starting...")
     trainer_phase_2.train()
     used_memory_phase_2 = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)

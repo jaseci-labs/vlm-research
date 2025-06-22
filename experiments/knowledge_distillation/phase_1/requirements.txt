@@ -1,4 +1,5 @@
 unsloth==2025.5.4
+accelerate==1.7.0
 accelerator
 wandb
 torch
