@@ -1,0 +1,2862 @@
+{
+  "image_dataset/test/002752.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratches",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has moderate damage characterized by multiple scratches on the front fender. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000233.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002707.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and paint damage on the front fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000513.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "hood",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper, a major dent on the hood, and a broken front headlight. Estimated repair cost: $3,000."
+  },
+  "image_dataset/test/002931.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and extensive paint damage on the rear bumper. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003683.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front bumper and front fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001327.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has minor damage, including a scratch on the rear bumper. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003099.jpg": {
+    "predictions": [
+      {
+        "location": "rear windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered rear windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002810.jpg": {
+    "predictions": [
+      {
+        "location": "hood",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major crack on the hood. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000520.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front fender and a minor scratch on the front bumper. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/003992.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear light assembly",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear fender and a broken rear light assembly. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003533.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000659.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent on the rear fender and a flat rear tire. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001900.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "shatter",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper and a shattered headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/001610.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001437.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front fender. The scratches are deep and extensive, affecting the paint and potentially the body of the car. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003887.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001926.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the passenger side door. Estimated repair cost: $300."
+  },
+  "image_dataset/test/002664.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003793.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001282.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front bumper. The damage appears to be the result of a collision with another vehicle. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/001402.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001367.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the front bumper. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001240.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent and a major crack on the rear bumper. The damage appears to be extensive and will require professional repair. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001558.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the rear bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003948.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front grille",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper and a major dent on the front grille. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000869.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "rupture",
+        "severity": "major"
+      },
+      {
+        "location": "fender",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major rupture on the front tire and a major crack on the fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002514.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, primarily a major scratch and extensive paint damage on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001424.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear bumper. The dent has caused a large depression and surface cracking in the paint. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001169.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and a crack on the front bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003338.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "body panels",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major crack on the windshield and minor scratches across various body panels. Estimated repair cost: $3,000."
+  },
+  "image_dataset/test/001130.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front fender. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/000185.jpg": {
+    "predictions": [
+      {
+        "location": "rear window",
+        "damage_type": "shattered glass",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered glass on the rear window. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003649.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "peel-off paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major peel-off paint damage on the front fender. The paint damage reveals the primer beneath, indicating a need for substantial repair. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003492.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratches",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including major scratches on the rear fender. The scratches are deep and cover a large area, indicating a severe impact. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001024.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "wheel rim",
+        "damage_type": "corrosion",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major flat tire on the front and moderate corrosion on the wheel rim. Estimated repair cost: $400."
+  },
+  "image_dataset/test/000514.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major paint damage on the front bumper and a major dent on the front fender. Estimated repair cost: $2,200."
+  },
+  "image_dataset/test/003011.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the front fender and a minor scratch on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001587.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratches",
+        "severity": "major"
+      },
+      {
+        "location": "headlight area",
+        "damage_type": "scratches",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including major scratches on the front bumper and minor scratches on the headlight area. The damage appears extensive on the front section of the vehicle. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000611.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent and paint damage",
+        "severity": "major"
+      },
+      {
+        "location": "right tail light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and paint damage on the rear bumper and a broken right tail light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003399.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "severe damage",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "crack",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has suffered significant damage including severe damage to the front bumper and a moderate crack in the front headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/001098.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a major issue with a flat front tire and a minor scratch on the driver side door. Estimated repair cost: $300."
+  },
+  "image_dataset/test/002621.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear fender",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and paint damage on the rear fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000353.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scuff",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained a major flat tire on the front, which will require immediate attention. Additionally, there is a minor scuff on the front fender. Estimated repair cost: $400."
+  },
+  "image_dataset/test/002262.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and minor scratches on the front fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000886.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000638.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained minor damage, which includes a scratch on the front fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001088.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "paint chip",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front fender and minor paint chips in the same area. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002991.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "tail light",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear fender and a major crack on the tail light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001910.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "headlight area",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major dents on the front bumper and fender, along with a crack in the headlight area. Estimated repair cost: $2,200."
+  },
+  "image_dataset/test/003256.jpg": {
+    "predictions": [
+      {
+        "location": "rear windshield",
+        "damage_type": "shattered",
+        "severity": "critical"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained critical damage, with the rear windshield being completely shattered. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003156.jpg": {
+    "predictions": [
+      {
+        "location": "driver side window",
+        "damage_type": "shattered glass",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered glass on the driver side window. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001944.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained minor damage, including a scratch on the driver side door. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001536.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "tail light area",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear bumper and a broken tail light area. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003233.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003454.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scuff",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a moderate scuff on the rear fender, with a noticeable area of paint damage and some exposed undercoat. Estimated repair cost: $400."
+  },
+  "image_dataset/test/002140.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003087.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "shatter",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper and a shatter on the headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003690.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the driver side door and a minor dent on the front bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003140.jpg": {
+    "predictions": [
+      {
+        "location": "driver side window",
+        "damage_type": "shattered glass",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered glass on the driver side window. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002887.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "rust",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent and rust on the driver side door. The rust appears extensive, affecting the structural integrity of the door. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002240.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and extensive scratches on the front fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003573.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major scratch on the rear fender. The scratch appears deep and extensive, affecting the paint and possibly the bodywork. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003829.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/003316.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002552.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper and a major dent on the front fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002358.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/002169.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear fender and a minor scratch on the rear bumper. Estimated repair cost: $1,800."
+  },
+  "image_dataset/test/001372.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front fender and a minor scratch on the driver side door. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/001163.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained a major flat tire on the front. This condition requires immediate attention and replacement. Estimated repair cost: $200."
+  },
+  "image_dataset/test/001963.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "scratches",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage with major scratches on the driver side door. The scratches appear deep, affecting the paint and potentially the body of the car. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001809.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000950.jpg": {
+    "predictions": [
+      {
+        "location": "rear light",
+        "damage_type": "broken",
+        "severity": "major"
+      },
+      {
+        "location": "rear body panel",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major broken rear light and minor scratches on the rear body panel. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000404.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "hood",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "shatter",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper, a major dent on the hood, and a shatter on the front headlight. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/003201.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield and a major dent on the front bumper. Estimated repair cost: $3,000."
+  },
+  "image_dataset/test/003831.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and paint damage on the front bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003956.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major paint damage on the front bumper. The paint appears to be stripped in a large area, indicating a need for repainting. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001899.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001979.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and paint damage on the front bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002825.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "scratches",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, with major scratches covering the passenger side door. The extensive nature of the scratches suggests a high repair cost. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001394.jpg": {
+    "predictions": [
+      {
+        "location": "rear light assembly",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear body panel",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major crack in the rear light assembly and minor scratches on the rear body panel. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001837.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001016.jpg": {
+    "predictions": [
+      {
+        "location": "tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a major issue with a flat tire. Estimated repair cost: $200."
+  },
+  "image_dataset/test/003301.jpg": {
+    "predictions": [
+      {
+        "location": "driver side window",
+        "damage_type": "shattered glass",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, with the driver side window being completely shattered. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002766.jpg": {
+    "predictions": [
+      {
+        "location": "hood",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the hood and a major crack on the headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002407.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the front fender. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001368.jpg": {
+    "predictions": [
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the headlight. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001768.jpg": {
+    "predictions": [
+      {
+        "location": "side panel",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "side panel",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and a minor scratch on the side panel. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002922.jpg": {
+    "predictions": [
+      {
+        "location": "rear window",
+        "damage_type": "crack",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor crack on the rear window. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001939.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001078.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "cut",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major cut on the front tire. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003925.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper, a shattered front headlight, and a major dent on the front fender. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/003656.jpg": {
+    "predictions": [
+      {
+        "location": "side mirror",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the side mirror. Estimated repair cost: $200."
+  },
+  "image_dataset/test/000348.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003166.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002661.jpg": {
+    "predictions": [
+      {
+        "location": "side panel",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained a significant major dent on the side panel. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001962.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper and a major crack on the headlight. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002072.jpg": {
+    "predictions": [
+      {
+        "location": "hood",
+        "damage_type": "dent and paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent and paint damage on the hood. The paint is chipped and the metal is visibly deformed. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002590.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front bumper. Estimated repair cost: $1,800."
+  },
+  "image_dataset/test/000152.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper, a shattered front headlight, and a major dent on the front fender. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/002299.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and a major scratch on the passenger side door. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002314.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and crack on the rear bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000625.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003789.jpg": {
+    "predictions": [
+      {
+        "location": "tail light",
+        "damage_type": "crack",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor crack on the tail light. Estimated repair cost: $300."
+  },
+  "image_dataset/test/000128.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the rear bumper and a major dent on the rear fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003768.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/000214.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002014.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front bumper. The scratches are deep and cover a large area, indicating a substantial impact. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002858.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the rear fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003115.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "dust accumulation",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a majorly shattered windshield and minor dust accumulation on the driver side door. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000044.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper and a major dent on the front fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003296.jpg": {
+    "predictions": [
+      {
+        "location": "front wheel",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scuff",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained a major flat tire on the front wheel and a minor scuff on the front fender. Estimated repair cost: $400."
+  },
+  "image_dataset/test/000488.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including major paint damage on the rear bumper. The paint is chipped and scraped, exposing the underlying material. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002035.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "tail light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent on the rear fender and a broken tail light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002612.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the rear fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001617.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper and a shattered headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/001967.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches and a major dent on the driver side door. The paint is chipped, revealing the metal underneath, and the door's surface is visibly warped. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002409.jpg": {
+    "predictions": [
+      {
+        "location": "hood",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the hood. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002045.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the front fender with visible paint damage and underlying metal exposed. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000698.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear bumper and a broken rear light. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002235.jpg": {
+    "predictions": [
+      {
+        "location": "rear door",
+        "damage_type": "paint damage",
+        "severity": "major"
+      },
+      {
+        "location": "rear window",
+        "damage_type": "cracked",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including major paint damage on the rear door and a major crack on the rear window. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002508.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003246.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the driver side door and a major dent on the front fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003743.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the driver side door and a minor scratch on the passenger side door. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/001665.jpg": {
+    "predictions": [
+      {
+        "location": "front headlight",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered front headlight and a major dent on the front bumper. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002833.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has minor damage, including a scratch on the front fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003879.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and a minor crack on the rear bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002898.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major dents on the rear bumper and rear fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003345.jpg": {
+    "predictions": [
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the headlight. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002849.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has minor damage, including a scratch on the front fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003039.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. The windshield is extensively cracked and poses a safety hazard. Estimated repair cost: $500."
+  },
+  "image_dataset/test/000415.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and crack on the front fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003244.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattering of the windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003477.jpg": {
+    "predictions": [
+      {
+        "location": "side panel",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major scratch on the side panel. The scratch appears deep and extensive, affecting the paint and possibly the underlying metal. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000811.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper and a major crack on the front headlight. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000567.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "chip and scratch",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained moderate damage, including a chip and scratch on the rear fender. The paint is visibly damaged, exposing the undercoat. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001751.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained moderate damage, including a scratch on the front bumper. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002728.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the front bumper. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003908.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major dents and scratches on the driver side door. The damage appears extensive, affecting the door's structural integrity and paint. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/001040.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003703.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002330.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front fender and minor scratches on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002646.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the rear fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/000424.jpg": {
+    "predictions": [
+      {
+        "location": "side panel",
+        "damage_type": "paint damage",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has moderate paint damage on the side panel, with noticeable chipping and exposure of the undercoat. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000191.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper and damage to the front headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003812.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002908.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001272.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "rust",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent on the front fender along with minor rust. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002393.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major scratches on the front fender. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002801.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper along with minor scratches. Estimated repair cost: $1,800."
+  },
+  "image_dataset/test/002475.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000848.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the passenger side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000057.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "fender",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major flat tire on the front and a major crack on the fender. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000033.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and paint damage on the front fender. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/001058.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "wheel rim",
+        "damage_type": "corrosion",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major flat tire on the front and minor corrosion on the wheel rim. Estimated repair cost: $300."
+  },
+  "image_dataset/test/002534.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the driver side door. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003071.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001641.jpg": {
+    "predictions": [
+      {
+        "location": "rear spoiler",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear spoiler. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001820.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major scratch on the rear fender. The scratch is deep and extensive, exposing the undercoat. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000468.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent and scratch",
+        "severity": "major"
+      },
+      {
+        "location": "rear light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and scratch on the rear bumper and a broken rear light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002189.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper and a minor scratch on the front fender. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/000565.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattering of the windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002914.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the front fender. The scratch appears deep and extensive, affecting the paint and possibly the body underneath. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000541.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major dents on the rear bumper and rear fender. The rear light assembly also appears to be damaged. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003959.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, with the windshield being shattered. This is a major issue requiring immediate attention. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003441.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlight",
+        "damage_type": "shatter",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "tear",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper, a shattered headlight, and a major tear on the front fender. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/002628.jpg": {
+    "predictions": [
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the headlight and a minor dent on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001459.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlights",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a shattered windshield, a cracked front bumper, and broken headlights. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/000905.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the rear fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002865.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and a minor scratch on the front fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003109.jpg": {
+    "predictions": [
+      {
+        "location": "headlight",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a majorly shattered headlight and a major dent on the front fender. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002252.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "right taillight",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the rear bumper and a broken right taillight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000224.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered windshield and minor scratches on the front bumper. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/002953.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the rear fender. The scratch appears deep and extensive, affecting the paint and possibly the body underneath. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003993.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattering of the windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003542.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000875.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and minor scratches on the driver side door. Estimated repair cost: $1,800."
+  },
+  "image_dataset/test/002163.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major dents on the front bumper and the driver side door. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000088.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "perforation",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major perforation on the rear bumper and minor scratches around the area. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/003977.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the windshield. The windshield shows a spiderweb pattern of cracks emanating from a central impact point. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003842.jpg": {
+    "predictions": [
+      {
+        "location": "roof",
+        "damage_type": "paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage to the roof, with major paint damage visible. The paint appears to be stripped or damaged in a large area. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000749.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "abrasion",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained a major flat tire on the front, requiring immediate replacement. There is also a minor abrasion on the front fender. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001746.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch along the passenger side door. The scratch is extensive and shows signs of potential rust development. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002741.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear fender. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/001236.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crush",
+        "severity": "major"
+      },
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crush on the front bumper and a major crack on the front fender. Estimated repair cost: $3,500."
+  },
+  "image_dataset/test/001885.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front wheel",
+        "damage_type": "distortion",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major crack on the front fender and distortion to the front wheel. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003561.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "scratches",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, primarily characterized by major scratches across the front bumper. Estimated repair cost: $1,500."
+  },
+  "image_dataset/test/000293.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major scratch on the rear fender. The scratch appears deep and extensive, affecting the paint and possibly the bodywork. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003626.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained a minor scratch on the driver side door. No other visible damage was noted. Estimated repair cost: $300."
+  },
+  "image_dataset/test/002601.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the front bumper and a broken front headlight. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003226.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent and tear",
+        "severity": "major"
+      },
+      {
+        "location": "windshield",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front headlight",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent and tear on the front bumper, a major crack on the windshield, and a minor scratch on the front headlight. Estimated repair cost: $3,000."
+  },
+  "image_dataset/test/000914.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield and a minor dent on the front bumper. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/003994.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks and broken parts on the front bumper. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000320.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/003612.jpg": {
+    "predictions": [
+      {
+        "location": "driver side door lower panel",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door lower panel",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major dent and a minor scratch on the lower panel of the driver side door. Estimated repair cost: $800."
+  },
+  "image_dataset/test/002307.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/000740.jpg": {
+    "predictions": [
+      {
+        "location": "driver side body",
+        "damage_type": "rust",
+        "severity": "major"
+      },
+      {
+        "location": "wheel rim",
+        "damage_type": "corrosion",
+        "severity": "moderate"
+      }
+    ],
+    "report": "Insurance Report: The vehicle shows significant deterioration, with major rust affecting the driver side body and moderate corrosion on the wheel rim. This level of damage may impact the structural integrity and safety of the vehicle. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000330.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001071.jpg": {
+    "predictions": [
+      {
+        "location": "front tire",
+        "damage_type": "flat tire",
+        "severity": "major"
+      },
+      {
+        "location": "tire rim",
+        "damage_type": "corrosion",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a major issue with a flat front tire and minor corrosion on the tire rim. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001832.jpg": {
+    "predictions": [
+      {
+        "location": "rear fender",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear fender. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003367.jpg": {
+    "predictions": [
+      {
+        "location": "rear light",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "rear bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, including a major crack on the rear light and a minor scratch on the rear bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003872.jpg": {
+    "predictions": [
+      {
+        "location": "hood",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "windshield",
+        "damage_type": "shatter",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including major cracks on the hood and a major shatter on the windshield. Estimated repair cost: $3,000."
+  },
+  "image_dataset/test/001993.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/000889.jpg": {
+    "predictions": [
+      {
+        "location": "driver side window",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, with the driver side window being shattered. Estimated repair cost: $500."
+  },
+  "image_dataset/test/001879.jpg": {
+    "predictions": [
+      {
+        "location": "passenger side door",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major scratch on the passenger side door. The scratch appears deep and extensive, affecting the paint and possibly the metal underneath. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003554.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has a minor scratch on the front fender. Estimated repair cost: $300."
+  },
+  "image_dataset/test/001263.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "headlight housing",
+        "damage_type": "crack",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has incurred significant damage evident from major cracks on both the front bumper and the headlight housing. These damages suggest a severe impact, and the estimated repair cost could reach up to $3,000, considering the complexity and extent of the repairs needed."
+  },
+  "image_dataset/test/000996.jpg": {
+    "predictions": [
+      {
+        "location": "rear tailgate",
+        "damage_type": "scratch",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, featuring a major scratch on the rear tailgate which affects the paint and possibly the underlying materials. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003062.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a majorly shattered windshield. Estimated repair cost: $500."
+  },
+  "image_dataset/test/002467.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "abrasion",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major abrasion on the rear bumper, which has resulted in visible paint loss and structural damage. Estimated repair cost: $1,000."
+  },
+  "image_dataset/test/003695.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent with paint damage",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent with paint damage on the rear bumper. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/002694.jpg": {
+    "predictions": [
+      {
+        "location": "front bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "driver side door",
+        "damage_type": "none",
+        "severity": "none"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the front bumper. There are no visible damages to the driver side door. Estimated repair cost: $1,200."
+  },
+  "image_dataset/test/003392.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "tail light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear bumper and a broken tail light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/002056.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "dent",
+        "severity": "major"
+      },
+      {
+        "location": "tail light",
+        "damage_type": "crack",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major dent on the rear bumper and a minor crack on the tail light. Estimated repair cost: $1,800."
+  },
+  "image_dataset/test/003027.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "critical"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained critical damage, with the windshield being completely shattered. This poses a significant safety hazard and requires immediate replacement. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000433.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, with the windshield being severely shattered. This type of damage poses a serious safety risk and requires immediate attention. Estimated repair cost: $800."
+  },
+  "image_dataset/test/003804.jpg": {
+    "predictions": [
+      {
+        "location": "windshield",
+        "damage_type": "shattered glass",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "rust",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained significant damage, primarily a major shattered glass on the windshield. There is also minor rust on the front bumper. Estimated repair cost: $2,500."
+  },
+  "image_dataset/test/000387.jpg": {
+    "predictions": [
+      {
+        "location": "headlight",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "front bumper",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack in the headlight and a minor scratch on the front bumper. Estimated repair cost: $800."
+  },
+  "image_dataset/test/001396.jpg": {
+    "predictions": [
+      {
+        "location": "rear bumper",
+        "damage_type": "crack",
+        "severity": "major"
+      },
+      {
+        "location": "tail light",
+        "damage_type": "broken",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major crack on the rear bumper and a broken tail light. Estimated repair cost: $2,000."
+  },
+  "image_dataset/test/000787.jpg": {
+    "predictions": [
+      {
+        "location": "rear window",
+        "damage_type": "shattered",
+        "severity": "major"
+      }
+    ],
+    "report": "Insurance Report: The vehicle sustained significant damage, including a major shattered rear window. Estimated repair cost: $800."
+  },
+  "image_dataset/test/000766.jpg": {
+    "predictions": [
+      {
+        "location": "driver side below the door handle",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has sustained minor damage, including a scratch below the driver side door handle. Estimated repair cost: $300."
+  },
+  "image_dataset/test/003187.jpg": {
+    "predictions": [
+      {
+        "location": "front fender",
+        "damage_type": "scratch",
+        "severity": "minor"
+      },
+      {
+        "location": "door handle",
+        "damage_type": "scratch",
+        "severity": "minor"
+      }
+    ],
+    "report": "Insurance Report: The vehicle has minor scratches on the front fender and the door handle. These damages appear to be superficial and not structurally impacting. Estimated repair cost: $300."
+  }
+}
