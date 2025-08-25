@@ -1,24 +1,33 @@
+#!/usr/bin/env python3
+# Tsung-Yi Lin <tl483@cornell.edu>
+# Ramakrishna Vedantam <vrama91@vt.edu>
+
 import copy
-import pickle
-from collections import defaultdict
-import numpy as np
 import math
 import os
+import pickle
+from collections import defaultdict
+
+import numpy as np
+
 
 def precook(s, n=4, out=False):
     words = s.split()
     counts = defaultdict(int)
     for k in range(1, n + 1):
         for i in range(len(words) - k + 1):
-            ngram = tuple(words[i:i + k])
+            ngram = tuple(words[i : i + k])
             counts[ngram] += 1
     return counts
+
 
 def cook_refs(refs, n=4):
     return [precook(ref, n) for ref in refs]
 
+
 def cook_test(test, n=4):
     return precook(test, n, True)
+
 
 class CiderScorer(object):
     def copy(self):
@@ -45,7 +54,9 @@ class CiderScorer(object):
                 self.ctest.append(None)
 
     def size(self):
-        assert len(self.crefs) == len(self.ctest), f"refs/test mismatch! {len(self.crefs)}<>{len(self.ctest)}"
+        assert len(self.crefs) == len(
+            self.ctest
+        ), f"refs/test mismatch! {len(self.crefs)}<>{len(self.ctest)}"
         return len(self.crefs)
 
     def __iadd__(self, other):
@@ -66,7 +77,7 @@ class CiderScorer(object):
             vec = [defaultdict(float) for _ in range(self.n)]
             length = 0
             norm = [0.0 for _ in range(self.n)]
-            for (ngram, term_freq) in cnts.items():
+            for ngram, term_freq in cnts.items():
                 df = np.log(max(1.0, self.document_frequency.get(ngram, 0.0)))
                 n = len(ngram) - 1
                 if n >= self.n:
@@ -81,10 +92,10 @@ class CiderScorer(object):
         def sim(vec_hyp, vec_ref, norm_hyp, norm_ref, length_hyp, length_ref):
             val = np.array([0.0 for _ in range(self.n)])
             for n in range(self.n):
-                for (ngram, _) in vec_hyp[n].items():
+                for ngram, _ in vec_hyp[n].items():
                     val[n] += vec_hyp[n][ngram] * vec_ref[n].get(ngram, 0.0)
                 if norm_hyp[n] != 0 and norm_ref[n] != 0:
-                    val[n] /= (norm_hyp[n] * norm_ref[n])
+                    val[n] /= norm_hyp[n] * norm_ref[n]
                 assert not math.isnan(val[n])
             return val
 
@@ -104,16 +115,18 @@ class CiderScorer(object):
         return scores
 
     def compute_score(self, df_mode, pfile_path, option=None, verbose=0):
-        with open(pfile_path, 'rb') as f:
+        with open(pfile_path, "rb") as f:
             self.document_frequency = pickle.load(f)
         score = self.compute_cider()
         return np.mean(np.array(score)), np.array(score)
+
 
 class Cider:
     """
     Main Class to compute the CIDEr metric
 
     """
+
     def __init__(self, n=4, df="coco-val-df"):
         """
         Initialize the CIDEr scoring function
@@ -138,17 +151,17 @@ class Cider:
 
         for res_id in res:
 
-            hypo = res_id['caption']
-            ref = gts[res_id['image_id']]
+            hypo = res_id["caption"]
+            ref = gts[res_id["image_id"]]
 
             # Sanity check.
-            assert(type(hypo) is list)
-            assert(len(hypo) == 1)
-            assert(type(ref) is list)
-            assert(len(ref) > 0)
+            assert type(hypo) is list
+            assert len(hypo) == 1
+            assert type(ref) is list
+            assert len(ref) > 0
             cider_scorer += (hypo[0], ref)
 
-        (score, scores) = cider_scorer.compute_score(self._df, pfile_path= pfile_path)
+        (score, scores) = cider_scorer.compute_score(self._df, pfile_path=pfile_path)
 
         return score, scores
 
