@@ -8,6 +8,7 @@ from unsloth import FastVisionModel, is_bf16_supported
 from unsloth.trainer import UnslothVisionDataCollator
 from trl import SFTTrainer, SFTConfig
 import os
+import sys
 
 def main(args):
     # --- Load model ---
@@ -33,20 +34,11 @@ def main(args):
         loftq_config = None,
     )
 
-    exclude_indices = args.exclude if args.exclude else []
     print("✅ Model loaded successfully.")
 
     print("🔄 Loading CarDD dataset...")
-    cardd_dataset = load_from_disk("Captioned_data")
-    print("✅ Loaded:", len(cardd_dataset))
-
-    # --- Filter dataset ---
-    # keep only samples that are NOT in exclude_indices
-    train_dataset = cardd_dataset.select(
-        [i for i in range(len(cardd_dataset)) if i not in exclude_indices]
-    )
-
-    print("Filtered Dataset size:", len(train_dataset))
+    train_dataset = load_from_disk("train")
+    print("✅ Loaded:", len(train_dataset))
 
     def convert_to_conversation(sample):
         conversation = [
@@ -140,9 +132,10 @@ def main(args):
     model.save_pretrained(save_dir)
     tokenizer.save_pretrained(save_dir)
 
-    # Zip the directory
-    zip_path = make_archive(save_dir, 'zip', save_dir)
-    print(f"✅ Model zipped at {zip_path}")
+    #Upload to hub
+    model.push_to_hub(args.repo_id, token=args.hf_token)
+    tokenizer.push_to_hub(args.repo_id, token=args.hf_token)
+    print(f"🚀 Model pushed to the hub at {args.repo_id}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Finetune a VLM with Unsloth")
@@ -152,11 +145,18 @@ if __name__ == "__main__":
                         help="Directory to save the fine-tuned model")
     parser.add_argument("--prompt", type=str, default="Describe the image in detail.",
                         help="Prompt instruction for training")
-    parser.add_argument(
-        "--exclude",
-        nargs="+",
-        type=int,
-        help="List of indices to exclude from dataset"
-    )
+    parser.add_argument("--hf_token", type=str, required=True,
+                        help="Your Hugging Face access token")
+    parser.add_argument("--repo_id", type=str, required=True,
+                        help="Where to save the trained model")
     args = parser.parse_args()
+
+    if not args.hf_token:
+        print("❌ Error: Hugging Face token not provided.")
+        sys.exit(1)
+
+    if not args.repo_id:
+        print("❌ Error: Hugging Face repo id not provided.")
+        sys.exit(1)
+
     main(args)

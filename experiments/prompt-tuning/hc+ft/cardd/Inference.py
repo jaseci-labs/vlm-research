@@ -34,7 +34,7 @@ def log_metrics_to_excel(
     vram_usage: List[float],
     cosine_scores: List[float],
     spice_scores: List[float],
-    flickr_subset,
+    train_subset,
     output_excel_path: str = "Flickr_pixtral.xlsx",
     prompts: str = None,
     wandb_project: str = "flickr-eval"
@@ -50,7 +50,7 @@ def log_metrics_to_excel(
         spice = spice_scores[i] if i < len(spice_scores) else None
 
         # sample lookup
-        sample_item = flickr_subset[s]
+        sample_item = train_subset[s]
         pil_img = sample_item['image']
         if not isinstance(pil_img, PILImage.Image):
             pil_img = PILImage.fromarray(pil_img)
@@ -162,13 +162,13 @@ if __name__ == "__main__":
 
     print("🔄 Loading Flickr subset dataset...")
     try:
-        flickr_subset = load_from_disk(dataset_folder)
-        print("✅ Dataset loaded. Number of samples:", len(flickr_subset))
+        train_subset = load_from_disk(dataset_folder)
+        print("✅ Dataset loaded. Number of samples:", len(train_subset))
     except Exception as e:
         print(f"[warning] Could not load dataset via load_from_disk({dataset_folder}): {e}")
         # fallback: try to treat dataset_folder as a directory of images
-        flickr_subset = []
-        print("⚠️ flickr_subset is empty; images will be looked up from --img-folder by index when possible")
+        train_subset = []
+        print("⚠️ train_subset is empty; images will be looked up from --img-folder by index when possible")
 
     print(f"🚀 Running evaluation batch with model {model_name}...")
     # NOTE: ensure your evaluate_batch signature accepts model_name parameter, or adjust accordingly.
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     try:
         results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
             prompt,
-            flickr_subset,
+            train_subset,
             samples,
             multiple_refs
         )
@@ -184,7 +184,7 @@ if __name__ == "__main__":
         # fallback: evaluate_batch doesn't accept model_name, try calling without it
         results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
             prompt,
-            flickr_subset,
+            train_subset,
             samples,
             multiple_refs,
         )
@@ -206,7 +206,7 @@ if __name__ == "__main__":
         vram_usage,
         cosine_scores,
         spice_scores,
-        flickr_subset,
+        train_subset,
         output_excel_path=excel_path,
         prompts=prompt,
         wandb_project=wandb_project

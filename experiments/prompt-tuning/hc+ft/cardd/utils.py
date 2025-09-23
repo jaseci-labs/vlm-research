@@ -8,21 +8,7 @@ from pycocoevalcap.tokenizer.ptbtokenizer import PTBTokenizer
 import pandas as pd
 import time
 import torch
-
-# --- Load model ---
-print("🔄 Loading vision-language model...")
-model, tokenizer = FastVisionModel.from_pretrained(
-    "/workspace/unsloth-finetune", # select the model you want to use if it's finetuned upload the model and add the file path
-    load_in_4bit=True,  # Use 4bit to reduce memory use. False for 16bit LoRA.
-    use_gradient_checkpointing="unsloth",  # True or "unsloth" for long context
-)
-model.eval()
-print("✅ Model loaded successfully.")
-
-scorer = SentenceTransformer("all-MiniLM-L6-v2").to("cuda")
-print("✅ Sentence transformer loaded.")
-
-# this code is specifically for dataset with multiple reference captions
+import os
 
 def get_similarity_score(reference_captions, generated_caption):
     try:
@@ -135,12 +121,29 @@ def run_inference(image, model, tokenizer, instruction):
         # On error, return empty caption and zeros
         return "", 0.0, 0.0
 
-def evaluate_batch(prompt, val_data, indexes, multiple_refs=True):
+def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="unsloth-finetune"):
     """
     prompts_list: list of instructions to evaluate
     val_data: DataFrame with ['image', 'caption'] columns,
     indexes: list of indexes to sample from val_data
     """
+    print(f"🔄 Loading vision-language model from {MODEL_DIR}...")
+    BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"  
+    # --- Load model ---
+    print(f"🔄 Loading full model directly from '{MODEL_DIR}'...")
+    model, tokenizer = FastVisionModel.from_pretrained(
+        MODEL_DIR,
+        load_in_4bit=True,
+        use_gradient_checkpointing="unsloth",
+    )
+
+    model.eval()
+    print("✅ Model loaded successfully.")
+
+
+    scorer = SentenceTransformer("all-MiniLM-L6-v2").to("cuda")
+    print("✅ Sentence transformer loaded.")
+
     print("🚀 Starting batch evaluation...")
     all_results = {}
     cosine_scores = {}
