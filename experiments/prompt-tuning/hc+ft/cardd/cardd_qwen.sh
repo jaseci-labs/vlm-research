@@ -4,7 +4,9 @@ set -e  # Stop the script on any error
 chmod +x unslothinstall.sh
 ./unslothinstall.sh
 
-# unzip cardd_qwen.sh
+source unsloth_env/bin/activate
+
+unzip cardd_subset.zip
 # --- variables: change names if needed ---
 SAVE_DIR="unsloth_finetune"
 DATASET_FOLDER="workspace/train"
@@ -12,11 +14,10 @@ RUN_SCRIPT="Inference.py"
 WANDB_PROJECT="cardd-eval"
 MODEL_NAME="unsloth/Qwen2-VL-7B-Instruct"
 SAMPLE_FOLDER="kaggle/working/cardd_sample_hf/train"
-USE_HF_DOWNLOAD=true 
+USE_HF_DOWNLOAD=false 
 
 HF_TOKEN=""  # add your huggingface token here
 REPO_ID=""  # add your huggingface repo id here
-MODEL_DIR="unsloth_finetune"
 
 
 # --- list of prompts ---
@@ -40,8 +41,10 @@ for i in "${!PROMPTS[@]}"; do
     
     if [ "$USE_HF_DOWNLOAD" = true ]; then
         echo "➡️ Downloading model from Hugging Face repo_id: $REPO_ID"
-        MODEL_DIR="RUN_REPO_ID"
+        MODEL_DIR="$RUN_REPO_ID"
+        echo $MODEL_DIR
     else
+        MODEL_DIR="$SAVE_DIR"
         echo "➡️ Running cardd_ft.py script"
         python cardd_ft.py \
             --model_name "$MODEL_NAME" \
@@ -58,8 +61,9 @@ for i in "${!PROMPTS[@]}"; do
             --model-name "$MODEL_NAME" \
             --dataset-folder "$SAMPLE_FOLDER" \
             --wandb-project "$WANDB_PROJECT" \
-            --output-excel "$OUTPUT_XLS"\
-            --model-dir "$MODEL_DIR"
+            --output-excel "$OUTPUT_XLS" \
+            --model-dir "$MODEL_DIR" \
+            --load-from-hf #remove this flag if not loading from HF
         echo "✅ Done. Excel saved at: $OUTPUT_XLS"
     else
         echo "❗ $RUN_SCRIPT not found in cwd. If you don't have it, run your own eval script and pass --model-name or --model-path as $MODEL_ROOT"

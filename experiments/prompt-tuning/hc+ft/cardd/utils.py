@@ -121,7 +121,7 @@ def run_inference(image, model, tokenizer, instruction):
         # On error, return empty caption and zeros
         return "", 0.0, 0.0
 
-def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="unsloth-finetune"):
+def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/workspace/unsloth-finetune", LOAD_FROM_HF=False):
     """
     prompts_list: list of instructions to evaluate
     val_data: DataFrame with ['image', 'caption'] columns,
@@ -130,12 +130,23 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="uns
     print(f"🔄 Loading vision-language model from {MODEL_DIR}...")
     BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"  
     # --- Load model ---
-    print(f"🔄 Loading full model directly from '{MODEL_DIR}'...")
-    model, tokenizer = FastVisionModel.from_pretrained(
-        MODEL_DIR,
-        load_in_4bit=True,
-        use_gradient_checkpointing="unsloth",
-    )
+    if LOAD_FROM_HF:
+        print(f"🔄 Loading base model '{BASE_MODEL}'...")
+        model, tokenizer = FastVisionModel.from_pretrained(
+            BASE_MODEL,
+            load_in_4bit=True,
+            use_gradient_checkpointing="unsloth",
+        )
+
+        print(f"🔄 Applying adapter from '{MODEL_DIR}'...")
+        model.load_adapter(MODEL_DIR)
+    else:
+        print(f"🔄 Loading full model directly from '{MODEL_DIR}'...")
+        model, tokenizer = FastVisionModel.from_pretrained(
+            MODEL_DIR,
+            load_in_4bit=True,
+            use_gradient_checkpointing="unsloth",
+        )
 
     model.eval()
     print("✅ Model loaded successfully.")

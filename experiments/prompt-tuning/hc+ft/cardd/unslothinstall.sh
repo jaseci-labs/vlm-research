@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e  # Stop the script on any error
-
 apt update
 apt install -y git unzip
 
@@ -20,6 +18,7 @@ pip install numpy
 pip install pandas
 pip install sentence-transformers>=2.2.2
 pip install XlsxWriter
+pip install openpyxl
 python -m ipykernel install --user --name=unsloth_env --display-name "Python (unsloth_env)"
 
 

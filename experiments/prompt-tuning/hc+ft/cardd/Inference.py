@@ -34,7 +34,7 @@ def log_metrics_to_excel(
     vram_usage: List[float],
     cosine_scores: List[float],
     spice_scores: List[float],
-    train_subset,
+    flickr_subset,
     output_excel_path: str = "Flickr_pixtral.xlsx",
     prompts: str = None,
     wandb_project: str = "flickr-eval"
@@ -50,7 +50,7 @@ def log_metrics_to_excel(
         spice = spice_scores[i] if i < len(spice_scores) else None
 
         # sample lookup
-        sample_item = train_subset[s]
+        sample_item = flickr_subset[s]
         pil_img = sample_item['image']
         if not isinstance(pil_img, PILImage.Image):
             pil_img = PILImage.fromarray(pil_img)
@@ -137,6 +137,8 @@ if __name__ == "__main__":
     parser.add_argument("--dataset-folder", type=str, default="/workspace/filtered_dataset", help="Fallback image folder (if dataset items are paths)")
     parser.add_argument("--wandb-project", type=str, default="flickr-eval", help="WandB project name")
     parser.add_argument("--output-excel", type=str, default="Flickr_pixtral.xlsx", help="Output Excel file path")
+    parser.add_argument("--model-dir", type=str, default=None, help="Directory of the fine-tuned model (if any)")
+    parser.add_argument("--load-from-hf", action="store_true", help="Whether to load the model from Hugging Face Hub")
     args = parser.parse_args()
 
     prompt = args.prompt
@@ -144,6 +146,7 @@ if __name__ == "__main__":
     dataset_folder = args.dataset_folder
     wandb_project = args.wandb_project
     excel_path = args.output_excel
+    model_dir= args.model_dir
     wandb.init(
         project="Prompting-Experiments",
         name=model_name,
@@ -162,32 +165,24 @@ if __name__ == "__main__":
 
     print("🔄 Loading Flickr subset dataset...")
     try:
-        train_subset = load_from_disk(dataset_folder)
-        print("✅ Dataset loaded. Number of samples:", len(train_subset))
+        flickr_subset = load_from_disk(dataset_folder)
+        print("✅ Dataset loaded. Number of samples:", len(flickr_subset))
     except Exception as e:
         print(f"[warning] Could not load dataset via load_from_disk({dataset_folder}): {e}")
         # fallback: try to treat dataset_folder as a directory of images
-        train_subset = []
-        print("⚠️ train_subset is empty; images will be looked up from --img-folder by index when possible")
+        flickr_subset = []
+        print("⚠️ flickr_subset is empty; images will be looked up from --img-folder by index when possible")
 
     print(f"🚀 Running evaluation batch with model {model_name}...")
-    # NOTE: ensure your evaluate_batch signature accepts model_name parameter, or adjust accordingly.
-    # I pass model_name as a keyword argument — if evaluate_batch doesn't accept it, change evaluate_batch to accept it.
-    try:
-        results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
+    results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
             prompt,
-            train_subset,
+            flickr_subset,
             samples,
-            multiple_refs
+            multiple_refs, 
+            MODEL_DIR=model_dir,
+            LOAD_FROM_HF=args.load_from_hf
         )
-    except TypeError:
-        # fallback: evaluate_batch doesn't accept model_name, try calling without it
-        results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
-            prompt,
-            train_subset,
-            samples,
-            multiple_refs,
-        )
+    
 
     print("✅ Evaluation complete!")
     print("📊 Results summary:")
@@ -206,7 +201,7 @@ if __name__ == "__main__":
         vram_usage,
         cosine_scores,
         spice_scores,
-        train_subset,
+        flickr_subset,
         output_excel_path=excel_path,
         prompts=prompt,
         wandb_project=wandb_project
