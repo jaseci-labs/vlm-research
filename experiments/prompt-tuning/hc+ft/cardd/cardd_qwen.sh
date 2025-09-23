@@ -63,7 +63,7 @@ for i in "${!PROMPTS[@]}"; do
             --wandb-project "$WANDB_PROJECT" \
             --output-excel "$OUTPUT_XLS" \
             --model-dir "$MODEL_DIR" \
-            --load-from-hf #remove this flag if not loading from HF
+            #--load-from-hf #remove this flag if not loading from HF
         echo "✅ Done. Excel saved at: $OUTPUT_XLS"
     else
         echo "❗ $RUN_SCRIPT not found in cwd. If you don't have it, run your own eval script and pass --model-name or --model-path as $MODEL_ROOT"

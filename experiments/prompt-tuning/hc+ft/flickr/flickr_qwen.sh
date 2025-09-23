@@ -6,14 +6,14 @@ chmod +x unslothinstall.sh
 
 source unsloth_env/bin/activate
 
-unzip cardd_subset.zip
+unzip flickr_subset.zip
 # --- variables: change names if needed ---
 SAVE_DIR="unsloth_finetune"
 DATASET_FOLDER="workspace/train"
 RUN_SCRIPT="Inference.py"   
-WANDB_PROJECT="cardd-eval"
+WANDB_PROJECT="flickr-eval"
 MODEL_NAME="unsloth/Qwen2-VL-7B-Instruct"
-SAMPLE_FOLDER="kaggle/working/cardd_sample_hf/train"
+SAMPLE_FOLDER="flickr_sample_hf/train"
 USE_HF_DOWNLOAD=true 
 
 HF_TOKEN=""  # add your huggingface token here
