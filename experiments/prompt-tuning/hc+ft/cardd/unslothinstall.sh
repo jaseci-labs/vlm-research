@@ -1,14 +1,13 @@
 #!/bin/bash
 apt update
 apt install -y git unzip
-pip install --upgrade pip
 
 python -m venv unsloth_env
 source unsloth_env/bin/activate
 
-pip install --upgrade pip
-pip install ipykernel
-pip install kaggle
+pip install --upgrade pip  
+pip install ipykernel  
+pip install kaggle 
 pip install openpyxl
 pip install datasets pandas
 pip install unsloth
@@ -21,6 +20,7 @@ pip install sentence-transformers>=2.2.2
 pip install XlsxWriter
 pip install openpyxl
 python -m ipykernel install --user --name=unsloth_env --display-name "Python (unsloth_env)"
+
 
 # Install Java 8
 #apt update
@@ -71,5 +71,6 @@ export PATH=$PATH:$CORENLP_HOME
 echo "Java 8 and Stanford CoreNLP 4.5.10 setup complete at $CORENLP_HOME"
 
 # Install Python packages
-pip install wandb numpy pycocoevalcap sentence-transformers huggingface_hub
+pip install wandb numpy pycocoevalcap sentence-transformers
 wandb login
+

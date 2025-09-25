@@ -2,27 +2,15 @@ import os
 import argparse
 from openpyxl import Workbook, load_workbook
 from openpyxl.drawing.image import Image as ExcelImage
-from PIL import Image as PILImage
 from io import BytesIO
 import pandas as pd
 from datasets import load_dataset, load_from_disk
-import json
-#Initialize wandb
-import wandb
+import json 
 from utils import evaluate_batch
 
 import argparse
-import io
-import os
 from typing import List, Any
-
-import pandas as pd
 from PIL import Image
-
-
-import pandas as pd
-from typing import List, Any
-from io import BytesIO
 from PIL import Image as PILImage
 import wandb
 
@@ -61,7 +49,7 @@ def log_metrics_to_excel(
 
         raw_caption = sample_item['caption']
         caption_text = "\n".join(str(c) for c in raw_caption) if isinstance(raw_caption, list) else str(raw_caption)
-
+        
         row = {
             "sample_index": s,
             "prompt": prompts,
@@ -88,7 +76,7 @@ def log_metrics_to_excel(
     # insert images into column A
     for row_idx, pil_img in enumerate(pil_images, start=1):  # row 1 = header row
         img_stream = BytesIO()
-        pil_img.thumbnail((128, 128))
+        pil_img.thumbnail((128, 128)) 
         pil_img.save(img_stream, format="PNG")
         img_stream.seek(0)
         worksheet.insert_image(row_idx, 0, f"image_{row_idx}.png", {"image_data": img_stream})
@@ -118,7 +106,6 @@ def log_metrics_to_excel(
             row["cosine_score"],
             row["cider_score"],
             row["spice_score"],
-            row["cider_score"],
             row["vram_usage"],
             row["inference_time_s"],
             row["prompt"],
@@ -140,18 +127,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run inference on a vision-language model")
     parser.add_argument("--prompt", type=str, default="Explain the image content step by step.", help="Prompt for the model")
     parser.add_argument("--model-name", type=str, default="Pixtral-12B", help="Model name to evaluate (e.g. Pixtral-12B)")
-    parser.add_argument("--base-model", type=str, default="unsloth/Qwen2-VL-7B-Instruct", help="Base model name (Hugging Face repo)")
     parser.add_argument("--pickle-path", type=str, default="/workspace/cardd-df.p", help="Path to the pickle file for CIDEr evaluation")
-    parser.add_argument("--dataset-folder", type=str, default="/workspace/filtered_dataset", help="Fallback image folder (if dataset items are paths)")
+    parser.add_argument("--dataset-repo", type=str, default="RR32444/cardd_subset", help="Fallback image folder (if dataset items are paths)")
     parser.add_argument("--wandb-project", type=str, default="flickr-eval", help="WandB project name")
     parser.add_argument("--output-excel", type=str, default="Flickr_pixtral.xlsx", help="Output Excel file path")
     parser.add_argument("--model-dir", type=str, default=None, help="Directory of the fine-tuned model (if any)")
+    parser.add_argument("--multiple-refs", action="store_true", help="Whether to use multiple references per image")
     parser.add_argument("--load-from-hf", action="store_true", help="Whether to load the model from Hugging Face Hub")
     args = parser.parse_args()
 
     prompt = args.prompt
     model_name = args.model_name
-    dataset_folder = args.dataset_folder
     wandb_project = args.wandb_project
     excel_path = args.output_excel
     model_dir= args.model_dir
@@ -169,37 +155,32 @@ if __name__ == "__main__":
         },
     )
     samples = [0,1,2,3,4,5,6,7,8,9]
-    multiple_refs = True
+    multiple_refs = args.multiple_refs
 
-    print("🔄 Loading Car Damage subset dataset...")
+    print("🔄 Loading Flickr subset dataset...")
     try:
-        test_subset = load_from_disk(dataset_folder)
+        test_subset = load_dataset(args.dataset_repo)['train']
         print("✅ Dataset loaded. Number of samples:", len(test_subset))
     except Exception as e:
-        print(f"[warning] Could not load dataset via load_from_disk({dataset_folder}): {e}")
-        # fallback: try to treat dataset_folder as a directory of images
-        test_subset = []
-        print("⚠️ test_subset is empty; images will be looked up from --img-folder by index when possible")
+        print(f"[warning] Could not load dataset via load_from_disk({args.dataset_repo}): {e}")
 
     print(f"🚀 Running evaluation batch with model {model_name}...")
     results, cosine_scores, cider_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
             prompt,
             test_subset,
             samples,
-            multiple_refs,
+            multiple_refs, 
             MODEL_DIR=model_dir,
-            BASE_MODEL = args.base_model, 
             PICKLE_PATH = args.pickle_path,
             LOAD_FROM_HF=args.load_from_hf
         )
-
+    
 
     print("✅ Evaluation complete!")
     print("📊 Results summary:")
     print("Cosine scores:", cosine_scores)
     print("CIDEr scores:", cider_scores)
     print("SPICE scores:", spice_scores)
-    print("CIDER scores:", cider_scores)
     print("Inference times:", inference_times)
     print("VRAM usage:", vram_usage)
 

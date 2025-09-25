@@ -3,7 +3,7 @@ import argparse
 import json
 import torch
 from shutil import make_archive
-from datasets import load_from_disk
+from datasets import load_from_disk, load_dataset
 from unsloth import FastVisionModel, is_bf16_supported
 from unsloth.trainer import UnslothVisionDataCollator
 from trl import SFTTrainer, SFTConfig
@@ -37,7 +37,7 @@ def main(args):
     print("✅ Model loaded successfully.")
 
     print("🔄 Loading CarDD dataset...")
-    train_dataset = load_from_disk(args.dataset_folder)
+    train_dataset = load_dataset(args.datast_repo)['train']
     print("✅ Loaded:", len(train_dataset))
 
     def convert_to_conversation(sample):
@@ -48,7 +48,7 @@ def main(args):
                  {"type": "image", "image": sample["image"]}]},
             {"role": "assistant",
              "content": [
-                 {"type": "text", "text": sample["caption"][0]}]},
+                 {"type": "text", "text": sample["caption"]}]},
         ]
         return {"messages": conversation}
 
@@ -129,23 +129,30 @@ def main(args):
     # --- Save model ---
     save_dir = args.save_dir
     print(f"💾 Saving model + tokenizer to {save_dir}")
+    
+    # After training
     model.save_pretrained(save_dir)
     tokenizer.save_pretrained(save_dir)
 
-    #Upload to hub
     model.push_to_hub(args.repo_id, token=args.hf_token)
     tokenizer.push_to_hub(args.repo_id, token=args.hf_token)
-    print(f"🚀 Model pushed to the hub at {args.repo_id}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Finetune a VLM with Unsloth")
     parser.add_argument("--model_name", type=str, required=True,
                         help="Base model to load (e.g., unsloth/Pixtral-12B-2409)")
-    parser.add_argument("--dataset_folder", type=str, default="workspace/cardd_dataset/kaggle/working/cardd_data_hf/train", help="Fallback image folder (if dataset items are paths)")
+    parser.add_argument("--datast_repo", type=str, default="RR32444/cardd_dataset",)
     parser.add_argument("--save_dir", type=str, default="flickr_px_finetune",
                         help="Directory to save the fine-tuned model")
     parser.add_argument("--prompt", type=str, default="Describe the image in detail.",
                         help="Prompt instruction for training")
+    # parser.add_argument(
+    #     "--exclude",
+    #     nargs="+",
+    #     type=int,
+    #     help="List of indices to exclude from dataset"
+    # )
     parser.add_argument("--hf_token", type=str, required=True,
                         help="Your Hugging Face access token")
     parser.add_argument("--repo_id", type=str, required=True,
