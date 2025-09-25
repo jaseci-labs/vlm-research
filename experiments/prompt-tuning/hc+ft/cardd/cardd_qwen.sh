@@ -14,7 +14,7 @@ RUN_SCRIPT="Inference.py"
 WANDB_PROJECT="cardd-eval"
 MODEL_NAME="unsloth/Qwen2-VL-7B-Instruct"
 SAMPLE_FOLDER="kaggle/working/cardd_sample_hf/train"
-USE_HF_DOWNLOAD=false 
+USE_HF_DOWNLOAD=true 
 
 HF_TOKEN=""  # add your huggingface token here
 REPO_ID=""  # add your huggingface repo id here
@@ -63,7 +63,7 @@ for i in "${!PROMPTS[@]}"; do
             --wandb-project "$WANDB_PROJECT" \
             --output-excel "$OUTPUT_XLS" \
             --model-dir "$MODEL_DIR" \
-            #--load-from-hf #remove this flag if not loading from HF
+            --load-from-hf #remove this flag if not loading from HF
         echo "✅ Done. Excel saved at: $OUTPUT_XLS"
     else
         echo "❗ $RUN_SCRIPT not found in cwd. If you don't have it, run your own eval script and pass --model-name or --model-path as $MODEL_ROOT"
