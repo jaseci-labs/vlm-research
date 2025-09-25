@@ -37,7 +37,7 @@ def main(args):
     print("✅ Model loaded successfully.")
 
     print("🔄 Loading CarDD dataset...")
-    train_dataset = load_from_disk("train")
+    train_dataset = load_from_disk(args.dataset_folder)
     print("✅ Loaded:", len(train_dataset))
 
     def convert_to_conversation(sample):
@@ -141,6 +141,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Finetune a VLM with Unsloth")
     parser.add_argument("--model_name", type=str, required=True,
                         help="Base model to load (e.g., unsloth/Pixtral-12B-2409)")
+    parser.add_argument("--dataset_folder", type=str, default="workspace/cardd_dataset/kaggle/working/cardd_data_hf/train", help="Fallback image folder (if dataset items are paths)")
     parser.add_argument("--save_dir", type=str, default="flickr_px_finetune",
                         help="Directory to save the fine-tuned model")
     parser.add_argument("--prompt", type=str, default="Describe the image in detail.",
