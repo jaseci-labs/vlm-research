@@ -2,27 +2,15 @@ import os
 import argparse
 from openpyxl import Workbook, load_workbook
 from openpyxl.drawing.image import Image as ExcelImage
-from PIL import Image as PILImage
 from io import BytesIO
 import pandas as pd
 from datasets import load_dataset, load_from_disk
 import json 
-#Initialize wandb
-import wandb
 from utils import evaluate_batch
 
 import argparse
-import io
-import os
 from typing import List, Any
-
-import pandas as pd
 from PIL import Image
-
-
-import pandas as pd
-from typing import List, Any
-from io import BytesIO
 from PIL import Image as PILImage
 import wandb
 
@@ -33,6 +21,7 @@ def log_metrics_to_excel(
     inference_times: List[float],
     vram_usage: List[float],
     cosine_scores: List[float],
+    cider_scores: List[float],
     spice_scores: List[float],
     test_subset,
     output_excel_path: str = "Flickr_pixtral.xlsx",
@@ -43,11 +32,13 @@ def log_metrics_to_excel(
     pil_images = []  # keep images for wandb and excel insertion
     n = len(samples)
     for i, s in enumerate(samples):
-        pred = results[i] if i < len(results) else None
-        time_taken = inference_times[i] if i < len(inference_times) else None
-        vram = vram_usage[i] if i < len(vram_usage) else None
-        cos = cosine_scores[i] if i < len(cosine_scores) else None
-        spice = spice_scores[i] if i < len(spice_scores) else None
+        #pred = results[i] if i < len(results) else None
+        pred = results.get(s, None)
+        time_taken = inference_times.get(s, None)
+        vram       = vram_usage.get(s, None)
+        cos        = cosine_scores.get(s, None)
+        spice      = spice_scores.get(s, None)
+        cider = cider_scores[s] if s < len(cider_scores) else None
 
         # sample lookup
         sample_item = test_subset[s]
@@ -66,6 +57,7 @@ def log_metrics_to_excel(
             "prediction": pred,
             "cosine_score": cos,
             "spice_score": spice,
+            "cider_score": cider,
             "vram_usage": vram,
             "inference_time_s": time_taken,
         }
@@ -97,7 +89,7 @@ def log_metrics_to_excel(
     except Exception as e:
         print(f"[warning] wandb.init failed: {e}. Skipping wandb logging.")
         return df, None
-    table_cols = ["sample_index", "image", "prediction", "cosine_score", "spice_score", "vram_usage", "inference_time_s", "prompt"]
+    table_cols = ["sample_index", "image", "prediction", "cosine_score", "cider_score", "spice_score", "vram_usage", "inference_time_s", "prompt"]
     wandb_table = wandb.Table(columns=table_cols)
     for i, row in enumerate(rows):
         pil_img = pil_images[i]
@@ -112,6 +104,7 @@ def log_metrics_to_excel(
             wb_image,
             row["prediction"],
             row["cosine_score"],
+            row["cider_score"],
             row["spice_score"],
             row["vram_usage"],
             row["inference_time_s"],
@@ -134,16 +127,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run inference on a vision-language model")
     parser.add_argument("--prompt", type=str, default="Explain the image content step by step.", help="Prompt for the model")
     parser.add_argument("--model-name", type=str, default="Pixtral-12B", help="Model name to evaluate (e.g. Pixtral-12B)")
-    parser.add_argument("--dataset-folder", type=str, default="/workspace/filtered_dataset", help="Fallback image folder (if dataset items are paths)")
+    parser.add_argument("--pickle-path", type=str, default="/workspace/cardd-df.p", help="Path to the pickle file for CIDEr evaluation")
+    parser.add_argument("--dataset-repo", type=str, default="RR32444/flickr_subset", help="Fallback image folder (if dataset items are paths)")
     parser.add_argument("--wandb-project", type=str, default="flickr-eval", help="WandB project name")
     parser.add_argument("--output-excel", type=str, default="Flickr_pixtral.xlsx", help="Output Excel file path")
     parser.add_argument("--model-dir", type=str, default=None, help="Directory of the fine-tuned model (if any)")
+    parser.add_argument("--multiple-refs", action="store_true", help="Whether to use multiple references per image")
     parser.add_argument("--load-from-hf", action="store_true", help="Whether to load the model from Hugging Face Hub")
     args = parser.parse_args()
 
     prompt = args.prompt
     model_name = args.model_name
-    dataset_folder = args.dataset_folder
     wandb_project = args.wandb_project
     excel_path = args.output_excel
     model_dir= args.model_dir
@@ -161,25 +155,23 @@ if __name__ == "__main__":
         },
     )
     samples = [0,1,2,3,4,5,6,7,8,9]
-    multiple_refs = True
+    multiple_refs = args.multiple_refs
 
     print("🔄 Loading Flickr subset dataset...")
     try:
-        test_subset = load_from_disk(dataset_folder)
+        test_subset = load_dataset("RR32444/flickr_subset")['test']
         print("✅ Dataset loaded. Number of samples:", len(test_subset))
     except Exception as e:
-        print(f"[warning] Could not load dataset via load_from_disk({dataset_folder}): {e}")
-        # fallback: try to treat dataset_folder as a directory of images
-        test_subset = []
-        print("⚠️ test_subset is empty; images will be looked up from --img-folder by index when possible")
+        print(f"[warning] Could not load dataset via load_from_disk({args.dataset_repo}): {e}")
 
     print(f"🚀 Running evaluation batch with model {model_name}...")
-    results, cosine_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
+    results, cosine_scores, cider_scores, spice_scores, inference_times, vram_usage = evaluate_batch(
             prompt,
             test_subset,
             samples,
             multiple_refs, 
             MODEL_DIR=model_dir,
+            PICKLE_PATH = args.pickle_path,
             LOAD_FROM_HF=args.load_from_hf
         )
     
@@ -187,6 +179,7 @@ if __name__ == "__main__":
     print("✅ Evaluation complete!")
     print("📊 Results summary:")
     print("Cosine scores:", cosine_scores)
+    print("CIDEr scores:", cider_scores)
     print("SPICE scores:", spice_scores)
     print("Inference times:", inference_times)
     print("VRAM usage:", vram_usage)
@@ -200,6 +193,7 @@ if __name__ == "__main__":
         inference_times,
         vram_usage,
         cosine_scores,
+        cider_scores,
         spice_scores,
         test_subset,
         output_excel_path=excel_path,
