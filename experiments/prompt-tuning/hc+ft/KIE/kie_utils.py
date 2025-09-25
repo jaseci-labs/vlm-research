@@ -103,7 +103,7 @@ def evaluate_kie_predictions(preds: List[Union[str, dict]], gts: List[dict]) -> 
 
     return get_kie_metrics(prediction_objects)
 
- 
+
 def run_inference(image, model, tokenizer, instruction):
     """
     Runs inference on `image` + `instruction` through `model`/`tokenizer`,
@@ -142,8 +142,11 @@ def run_inference(image, model, tokenizer, instruction):
                 "streamer": streamer,
                 "max_new_tokens": 128,
                 "use_cache": True,
-                "temperature": 1.0,
-                "min_p": 0.1
+                "do_sample":False,  # Greedy decoding for deterministic results
+                "top_p":1.0,  # No nucleus truncation (reproducibility guardrail)
+                "top_k":0,
+                # "temperature": 1.0,
+                # "min_p": 0.1
             }
         )
         thread.start()
@@ -178,7 +181,7 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/wo
     indexes: list of indexes to sample from val_data
     """
     print(f"🔄 Loading vision-language model from {MODEL_DIR}...")
-    BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"  
+    BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"
     # --- Load model ---
     if LOAD_FROM_HF:
         print(f"🔄 Loading base model '{BASE_MODEL}'...")
@@ -210,24 +213,24 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/wo
     Vram_usages = {}
     gts = []
     res = []
-    for index in indexes: 
+    for index in indexes:
         print(f"\n📦 Evaluating sample {index+1}/{len(indexes)} at index {index}...")
         sample = val_data[index]
         if multiple_refs:
-            reference_list = sample['caption'] 
+            reference_list = sample['caption']
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
 
         else:
             reference_list = [sample['caption']]
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
         res.append(pred)                                # list of prediction strings
-        gts.append({"caption": reference_list})          # list of dicts with "caption" key 
+        gts.append({"caption": reference_list})          # list of dicts with "caption" key
         all_results[index] = pred
         Inference_time[index] = inference_time
         Vram_usages[index] = peak_vram
 
     avg_score, per_sample_scores = evaluate_kie_predictions(res,gts)
-       
+
     print("✅ Batch evaluation complete!")
     return all_results, per_sample_scores, Inference_time, Vram_usages
 

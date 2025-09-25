@@ -23,7 +23,7 @@ def get_similarity_score(reference_captions, generated_caption, scorer):
 
         avg_score = total_score / len(reference_captions) if reference_captions else 0.0
         return avg_score
-        
+
     except Exception as e:
         return 0.0
 
@@ -31,7 +31,7 @@ def evaluate_cider(hypos, refs, PICKLE_PATH):
     gts = {str(i): refs[i] for i in refs}
 
     res = [{"image_id": str(i), "caption": hypos[i]} for i in hypos]
-   
+
     # Evaluate
     cider = Cider()
     score, individual_scores = cider.compute_score(gts, res, PICKLE_PATH)
@@ -68,7 +68,7 @@ def  calculate_spice(gts, res, stanford_corenlp_home=None):
         print("in pycocoevalcap/spice/lib/ (you might need to create this path).")
         return None, None
     return score, spice_f_scores
- 
+
 def run_inference(image, model, tokenizer, instruction):
     """
     Runs inference on `image` + `instruction` through `model`/`tokenizer`,
@@ -107,8 +107,11 @@ def run_inference(image, model, tokenizer, instruction):
                 "streamer": streamer,
                 "max_new_tokens": 128,
                 "use_cache": True,
-                "temperature": 1.0,
-                "min_p": 0.1
+                "do_sample":False,  # Greedy decoding for deterministic results
+                "top_p":1.0,  # No nucleus truncation (reproducibility guardrail)
+                "top_k":0,
+                # "temperature": 1.0,
+                # "min_p": 0.1
             }
         )
         thread.start()
@@ -142,8 +145,8 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=False, MODEL_DIR="/w
     val_data: DataFrame with ['image', 'caption'] columns,
     indexes: list of indexes to sample from val_data
     """
-    print(f"🔄 Loading vision-language model from {MODEL_DIR}...") 
-    BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"  
+    print(f"🔄 Loading vision-language model from {MODEL_DIR}...")
+    BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct"
     # --- Load model ---
     if LOAD_FROM_HF:
         print(f"🔄 Loading base model '{BASE_MODEL}'...")
@@ -176,25 +179,25 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=False, MODEL_DIR="/w
     Spice_scores = {}
     Inference_time = {}
     Vram_usages = {}
-    
-    for index in indexes: 
+
+    for index in indexes:
         print(f"\n📦 Evaluating sample {index+1}/{len(indexes)} at index {index}...")
         sample = val_data[index]
         if multiple_refs:
-            reference_list = sample['caption'] 
+            reference_list = sample['caption']
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
         else:
             reference_list = [sample['caption']]
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
 
-     
+
         # Save results
         all_results[index] = pred
         cos_score = get_similarity_score(reference_list, pred, scorer)
         cosine_scores[index] = cos_score
         Inference_time[index] = inference_time
         Vram_usages[index] = peak_vram
-        
+
     gts = {}
     res = {}
     print("\n📌 Preparing ground truths and predictions for SPICE evaluation...")
@@ -222,8 +225,8 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=False, MODEL_DIR="/w
     print("\n📌 Preparing ground truths and hypotheses for CIDEr evaluation...")
 
     hypos = {j: [all_results[idx]] for j, idx in enumerate(indexes)}
-    refs_dict = {j: sample['caption'] if multiple_refs else [sample['caption']] 
-                 for j, idx in enumerate(indexes) 
+    refs_dict = {j: sample['caption'] if multiple_refs else [sample['caption']]
+                 for j, idx in enumerate(indexes)
                  for sample in [val_data[idx]]}
 
     print("\n➡ Hypotheses dictionary:")
