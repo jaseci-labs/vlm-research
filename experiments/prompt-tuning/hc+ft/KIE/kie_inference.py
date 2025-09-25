@@ -2,27 +2,14 @@ import os
 import argparse
 from openpyxl import Workbook, load_workbook
 from openpyxl.drawing.image import Image as ExcelImage
-from PIL import Image as PILImage
 from io import BytesIO
 import pandas as pd
 from datasets import load_dataset, load_from_disk
 import json 
-#Initialize wandb
-import wandb
 from utils import evaluate_batch
 
 import argparse
-import io
-import os
 from typing import List, Any
-
-import pandas as pd
-from PIL import Image
-
-
-import pandas as pd
-from typing import List, Any
-from io import BytesIO
 from PIL import Image as PILImage
 import wandb
 
@@ -42,9 +29,9 @@ def log_metrics_to_excel(
     pil_images = []  # keep images for wandb and excel insertion
     n = len(samples)
     for i, s in enumerate(samples):
-        pred = results[i] if i < len(results) else None
-        time_taken = inference_times[i] if i < len(inference_times) else None
-        vram = vram_usage[i] if i < len(vram_usage) else None
+        pred = results.get(s, None)
+        time_taken = inference_times.get(s, None)
+        vram       = vram_usage.get(s, None)
         kie = kie_scores[i] if i < len(kie_scores) else None
 
         # sample lookup
@@ -130,7 +117,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run inference on a vision-language model")
     parser.add_argument("--prompt", type=str, default="Explain the image content step by step.", help="Prompt for the model")
     parser.add_argument("--model-name", type=str, default="Pixtral-12B", help="Model name to evaluate (e.g. Pixtral-12B)")
-    parser.add_argument("--dataset-folder", type=str, default="/workspace/filtered_dataset", help="Fallback image folder (if dataset items are paths)")
+    parser.add_argument("--subset-repo", type=str, default="/workspace/filtered_dataset", help="Fallback image folder (if dataset items are paths)")
     parser.add_argument("--wandb-project", type=str, default="flickr-eval", help="WandB project name")
     parser.add_argument("--output-excel", type=str, default="Flickr_pixtral.xlsx", help="Output Excel file path")
     parser.add_argument("--model-dir", type=str, default=None, help="Directory of the fine-tuned model (if any)")
@@ -139,7 +126,7 @@ if __name__ == "__main__":
 
     prompt = args.prompt
     model_name = args.model_name
-    dataset_folder = args.dataset_folder
+    subset_repo = args.subset_repo
     wandb_project = args.wandb_project
     excel_path = args.output_excel
     model_dir= args.model_dir
@@ -163,10 +150,10 @@ if __name__ == "__main__":
     
     print("🔄 Loading Flickr subset dataset...")
     try:
-        test_subset = load_from_disk(dataset_folder)
+        test_subset = load_dataset(subset_repo)
         print("✅ Dataset loaded. Number of samples:", len(test_subset))
     except Exception as e:
-        print(f"[warning] Could not load dataset via load_from_disk({dataset_folder}): {e}")
+        print(f"[warning] Could not load dataset via load_from_disk({subset_repo}): {e}")
         # fallback: try to treat dataset_folder as a directory of images
         test_subset = []
         print("⚠️ test_subset is empty; images will be looked up from --img-folder by index when possible")

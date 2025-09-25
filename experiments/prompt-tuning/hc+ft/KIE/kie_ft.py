@@ -56,7 +56,7 @@ def main(args):
                  {"type": "image", "image": sample["image"]}]},
             {"role": "assistant",
              "content": [
-                 {"type": "text", "text": sample["caption"][0]}]},
+                 {"type": "text", "text": sample["caption"]}]},
         ]
         return {"messages": conversation}
 
@@ -140,14 +140,14 @@ def main(args):
     model.save_pretrained(save_dir)
     tokenizer.save_pretrained(save_dir)
 
-    # Zip the directory
-    zip_path = make_archive(save_dir, 'zip', save_dir)
-    print(f"✅ Model zipped at {zip_path}")
+    model.push_to_hub(args.repo_id, token=args.hf_token)
+    tokenizer.push_to_hub(args.repo_id, token=args.hf_token)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Finetune a VLM with Unsloth")
     parser.add_argument("--model_name", type=str, required=True,
-                        help="Base model to load (e.g., unsloth/Pixtral-12B-2409)")
+                        help="Base model to load (e.g., unsloth/Pixtral-12B-2409)"),
+
     parser.add_argument("--save_dir", type=str, default="flickr_px_finetune",
                         help="Directory to save the fine-tuned model")
     parser.add_argument("--prompt", type=str, default="Describe the image in detail.",
@@ -158,5 +158,10 @@ if __name__ == "__main__":
         type=int,
         help="List of indices to exclude from dataset"
     )
+    parser.add_argument("--hf_token", type=str, required=True,
+                        help="Your Hugging Face access token")
+    parser.add_argument("--repo_id", type=str, required=True,
+                        help="Where to save the trained model")
+
     args = parser.parse_args()
     main(args)

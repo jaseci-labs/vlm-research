@@ -6,15 +6,15 @@ chmod +x unslothinstall.sh
 
 source unsloth_env/bin/activate
 
-unzip kie_subset.zip
 # --- variables: change names if needed ---
 SAVE_DIR="unsloth_finetune"
-DATASET_FOLDER="workspace/train"
 RUN_SCRIPT="Inference.py"   
-WANDB_PROJECT="kie-eval"
+WANDB_PROJECT="cardd-eval"
 MODEL_NAME="unsloth/Qwen2-VL-7B-Instruct"
-SAMPLE_FOLDER="kaggle/working/kie_sample_hf/train"
-USE_HF_DOWNLOAD=true 
+USE_HF_DOWNLOAD=false 
+#DATASET_REPO="RR32444/cardd_dataset"
+SAMPLE_REPO="RR32444/kie_subset"
+MODEL_DIR="$SAVE_DIR"
 
 HF_TOKEN=""  # add your huggingface token here
 REPO_ID=""  # add your huggingface repo id here
@@ -35,7 +35,7 @@ for i in "${!PROMPTS[@]}"; do
     PROMPT="${PROMPTS[i]}"
     NUM=$(printf "%02d" $((i+1)))   # 01, 02, 03, 04
 
-    OUTPUT_XLS="kie_prompt${NUM}.xlsx"
+    OUTPUT_XLS="cardd_prompt${NUM}.xlsx"
     RUN_REPO_ID="${REPO_ID}-prompt${NUM}"
     echo "🚀 Running evaluation for prompt: \"$PROMPT\""
     
@@ -45,8 +45,8 @@ for i in "${!PROMPTS[@]}"; do
         echo $MODEL_DIR
     else
         MODEL_DIR="$SAVE_DIR"
-        echo "➡️ Running kie_ft.py script"
-        python kie_ft.py \
+        echo "➡️ Running cardd_ft.py script"
+        python cardd_ft.py \
             --model_name "$MODEL_NAME" \
             --save_dir "$SAVE_DIR" \
             --prompt "$PROMPT" \
@@ -56,14 +56,20 @@ for i in "${!PROMPTS[@]}"; do
 
     echo "Running inference"
     if [ -f "$RUN_SCRIPT" ]; then
-        python "$RUN_SCRIPT" \
-            --prompt "$PROMPT" \
-            --model-name "$MODEL_NAME" \
-            --dataset-folder "$SAMPLE_FOLDER" \
-            --wandb-project "$WANDB_PROJECT" \
-            --output-excel "$OUTPUT_XLS" \
-            --model-dir "$MODEL_DIR" \
-            --load-from-hf #remove this flag if not loading from HF
+        CMD="python \"$RUN_SCRIPT\" \
+            --prompt \"$PROMPT\" \
+            --model-name \"$MODEL_NAME\" \
+            --dataset-repo \"$SUBSET_REPO\" \
+            --wandb-project \"$WANDB_PROJECT\" \
+            --output-excel \"$OUTPUT_XLS\" \
+            --model-dir \"$MODEL_DIR\""
+        # Conditionally add HF flag
+        if [ "$USE_HF_DOWNLOAD" = true ]; then
+            CMD="$CMD --load-from-hf"
+        fi
+
+        # Run it
+        eval $CMD
         echo "✅ Done. Excel saved at: $OUTPUT_XLS"
     else
         echo "❗ $RUN_SCRIPT not found in cwd. If you don't have it, run your own eval script and pass --model-name or --model-path as $MODEL_ROOT"
