@@ -159,7 +159,7 @@ def run_inference(image, model, tokenizer, instruction):
         # On error, return empty caption and zeros
         return "", 0.0, 0.0
 
-def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/workspace/unsloth-finetune", BASE_MODEL = "unsloth/Qwen2-VL-7B-Instruct" ,PICKLE_PATH = "/workspace/cardd-df.p", LOAD_FROM_HF=False):
+def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/workspace/unsloth-finetune", PICKLE_PATH = "/workspace/cardd-df.p", LOAD_FROM_HF=False):
     """
     prompts_list: list of instructions to evaluate
     val_data: DataFrame with ['image', 'caption'] columns,
@@ -263,7 +263,6 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/wo
     all_references = {}
     cosine_scores = {}
     Spice_scores = {}
-    Cider_scores = {}
     Inference_time = {}
     Vram_usages = {}
 
@@ -273,21 +272,13 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/wo
         if multiple_refs:
             reference_list = sample['caption'] 
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
-            cos_score = get_similarity_score(reference_list, pred,scorer)
+            cos_score = get_similarity_score(reference_list, pred,sentence_scorer)
 
         else:
             reference_list = [sample['caption']]
             pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
-            cos_score = get_similarity_score(reference_list, pred,scorer)
+            cos_score = get_similarity_score(reference_list, pred,sentence_scorer)
        
-
-        pred, inference_time, peak_vram = run_inference(sample['image'], model, tokenizer, prompt)
-        print(f"🔍 Generated prediction: '{pred[:100]}...'" if len(pred) > 100 else f"🔍 Generated prediction: '{pred}'")
-        print(f"🔍 Reference captions: {reference_list}")
-
-        cos_score = get_similarity_score(reference_list, pred, sentence_scorer)
-        print(f"🔍 Cosine similarity score: {cos_score}")
-
         all_results[index] = pred
         all_references[index] = reference_list
         cosine_scores[index] = cos_score
@@ -310,15 +301,6 @@ def evaluate_batch(prompt, val_data, indexes, multiple_refs=True, MODEL_DIR="/wo
     else:
         for idx in indexes:
             Spice_scores[idx] = 0.0
-
-    # Calculate CIDER scores
-    cider_score, cider_scores_per_instance = calculate_cider(gts, res)
-    if cider_scores_per_instance is not None and len(cider_scores_per_instance) > 0:
-        for i, idx in enumerate(indexes):
-            Cider_scores[idx] = cider_scores_per_instance[i]
-    else:
-        for idx in indexes:
-            Cider_scores[idx] = 0.0
 
     # Build dicts for CIDEr
     hypos = {j: [all_results[idx]] for j, idx in enumerate(indexes)}  # index → string
