@@ -29,9 +29,10 @@ EXCLUDE_INDICES=(2500 2501 2502 2503 2504 2505 2506 2507 2508 2509)
 
 # --- list of prompts ---
 PROMPTS=("an image of…",
-# "You are an observer describing the scene. Explain what is happening, focusing on the actions of people, animals, or objects as if you were narrating it for someone else.",
-# "Imagine you are a guide or commentator. Describe how a <text_1> is interacting with a <text_2> in the environment, providing context and details.",
-# "Describe using format - Subject: ___; Activity: ___; Environment: ___; Additional Notes: ___;"
+"How many people are playing soccer in this scene?",
+"You are an observer describing the scene. Explain what is happening, focusing on the actions of people, animals, or objects as if you were narrating it for someone else.",
+"Imagine you are a guide or commentator. Describe how a <text_1> is interacting with a <text_2> in the environment, providing context and details.",
+"Describe using format - Subject: ___; Activity: ___; Environment: ___; Additional Notes: ___;"
 )
 
 # --- prepare target dir ---
