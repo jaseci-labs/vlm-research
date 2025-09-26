@@ -8,11 +8,9 @@ source unsloth_env/bin/activate
 
 # --- variables: change names if needed ---
 SAVE_DIR="unsloth_finetune"
-DATASET_FOLDER="workspace/train"
 RUN_SCRIPT="Inference.py"   
 WANDB_PROJECT="cardd-eval"
 MODEL_NAME="unsloth/Qwen2-VL-7B-Instruct"
-SAMPLE_FOLDER="kaggle/working/cardd_sample_hf/train"
 USE_HF_DOWNLOAD=false 
 DATASET_REPO="RR32444/cardd_dataset"
 SAMPLE_REPO="RR32444/cardd_subset"
@@ -66,7 +64,7 @@ for i in "${!PROMPTS[@]}"; do
             --prompt \"$PROMPT\" \
             --model-name \"$MODEL_NAME\" \
             --pickle-path \"cardd-df.p\" \
-            --dataset-repo \"$DATASET_REPO\" \
+            --dataset-repo \"$SAMPLE_REPO\" \
             --wandb-project \"$WANDB_PROJECT\" \
             --output-excel \"$OUTPUT_XLS\" \
             --model-dir \"$MODEL_DIR\""
