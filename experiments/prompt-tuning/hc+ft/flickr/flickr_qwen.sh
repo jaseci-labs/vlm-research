@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e  # Stop the script on any error
 
+#if you get this error --> bash: ./flickr_qwen.sh: /bin/bash^M: bad interpreter: No such file or directory
+#run
+#apt update && apt install dos2unix && dos2unix unslothinstall.sh && dos2unix flickr_qwen.sh
+#chmod +x flickr_qwen.sh && ./flickr_qwen.sh
 chmod +x unslothinstall.sh
 ./unslothinstall.sh
 

@@ -1,5 +1,10 @@
-#!/bin/bash
+!/bin/bash
 set -e  # Stop the script on any error
+
+#if you get this error --> bash: ./flickr_qwen.sh: /bin/bash^M: bad interpreter: No such file or directory
+#run
+#apt update && apt install dos2unix && dos2unix unslothinstall.sh && dos2unix cardd_qwen.sh
+#chmod +x cardd_qwen.sh && ./cardd_qwen.sh
 
 chmod +x unslothinstall.sh
 ./unslothinstall.sh
@@ -22,11 +27,11 @@ REPO_ID=""  # add your huggingface repo id here
 
 # --- list of prompts ---
 PROMPTS=("an image of...",
-        # "Describe &&damage 12 sedan drive’ this !!image.",
-            # ,"Explain the visible damage to this vehicle. Question: What areas are affected and how severe is the damage? Answer:",
-            # "You are an insurance claims assessor. Provide a detailed description of the car’s condition.",
-            # "This \<part\_1> of the car has \<damage_type\_1> . The severity appears to be \<severity\_1>. Additional notes: \<text\_1>.",
-            # "Describe the damage in the following format – Damage Type: \_\_\_; Affected Part: \_\_\_; Severity: \_\_\_; Notes: \_\_\_"
+        "Describe &&damage 12 sedan drive’ this !!image.",
+            "Explain the visible damage to this vehicle. Question: What areas are affected and how severe is the damage? Answer:",
+            "You are an insurance claims assessor. Provide a detailed description of the car’s condition.",
+            "This \<part\_1> of the car has \<damage_type\_1> . The severity appears to be \<severity\_1>. Additional notes: \<text\_1>.",
+            "Describe the damage in the following format – Damage Type: \_\_\_; Affected Part: \_\_\_; Severity: \_\_\_; Notes: \_\_\_"
 )
 
 mkdir -p "$SAVE_DIR"
