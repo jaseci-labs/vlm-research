@@ -21,11 +21,29 @@ REPO_ID=""  # add your huggingface repo id here
 
 
 # --- list of prompts ---
-PROMPTS=("an image of..."
-            # ,"Explain the visible damage to this vehicle. Question: What areas are affected and how severe is the damage? Answer:",
-            # "You are an insurance claims assessor. Provide a detailed description of the car’s condition.",
-            # "This \<part\_1> of the car has \<damage_type\_1> . The severity appears to be \<severity\_1>. Additional notes: \<text\_1>.",
-            # "Describe the damage in the following format – Damage Type: \_\_\_; Affected Part: \_\_\_; Severity: \_\_\_; Notes: \_\_\_"
+PROMPTS=( """You are a highly accurate document understanding agent designed to extract structured information from scanned receipts, invoices, and sales slips.
+
+Your goal is to extract a fixed set of predefined fields from a given document image and return them as a single well-formed JSON object.
+
+Follow these rules carefully:
+1. Match Labels and Synonyms: Use exact field labels or common variations (e.g., "Tax ID", "GST No.", "TIN").
+2. Position Awareness: Use the layout of the document to infer missing labels (e.g., phone number near store name).
+3. Text Cleanup: Remove OCR noise, headers, and irrelevant content.
+4. Currency Handling: Preserve currency symbols and decimal formatting in monetary values.
+5. Missing or Unreadable Fields: If a field is not present or unreadable, return its value as "".
+6. Field Consistency: Always return the same 8 fields, in the exact order shown below.
+
+Output format must strictly match this schema:
+{
+  "date": "DD/MM/YYYY or similar format",
+  "doc_no_receipt_no": "...",
+  "seller_name": "...",
+  "seller_address": "...",
+  "seller_phone": "...",
+  "seller_gst_id": "...",
+  "total_tax": "...",
+  "total_amount": "..."
+}"""
 )
 
 mkdir -p "$SAVE_DIR"
@@ -59,7 +77,7 @@ for i in "${!PROMPTS[@]}"; do
         CMD="python \"$RUN_SCRIPT\" \
             --prompt \"$PROMPT\" \
             --model-name \"$MODEL_NAME\" \
-            --dataset-repo \"$SUBSET_REPO\" \
+            --subset-repo \"$SAMPLE_REPO\" \
             --wandb-project \"$WANDB_PROJECT\" \
             --output-excel \"$OUTPUT_XLS\" \
             --model-dir \"$MODEL_DIR\""

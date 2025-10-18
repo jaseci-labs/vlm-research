@@ -33,21 +33,21 @@ def main(args):
         loftq_config = None,
     )
 
-    exclude_indices = args.exclude if args.exclude else []
     print("✅ Model loaded successfully.")
 
-    print("🔄 Loading KIE dataset dataset...")
+    print("🔄 Loading KIE dataset...")
     kie_dataset = load_dataset("nanonets/key_information_extraction", split="test")
     print("✅ Loaded:", len(kie_dataset))
-
-    # --- Filter dataset ---
-    # keep only samples that are NOT in exclude_indices
-    train_dataset = kie_dataset.select(
-        [i for i in range(len(kie_dataset)) if i not in exclude_indices]
-    )
-
-    print("Filtered Dataset size:", len(train_dataset))
-
+    
+    # Split 80/20 reproducibly
+    split_dataset = kie_dataset.train_test_split(test_size=0.2, seed=42)
+    
+    train_dataset = split_dataset['train']
+    test_dataset = split_dataset['test']
+    
+    print("✅ Train size:", len(train_dataset))
+    print("✅ Test size:", len(test_dataset))
+    
     def convert_to_conversation(sample):
         conversation = [
             {"role": "user",
@@ -152,12 +152,6 @@ if __name__ == "__main__":
                         help="Directory to save the fine-tuned model")
     parser.add_argument("--prompt", type=str, default="Describe the image in detail.",
                         help="Prompt instruction for training")
-    parser.add_argument(
-        "--exclude",
-        nargs="+",
-        type=int,
-        help="List of indices to exclude from dataset"
-    )
     parser.add_argument("--hf_token", type=str, required=True,
                         help="Your Hugging Face access token")
     parser.add_argument("--repo_id", type=str, required=True,
