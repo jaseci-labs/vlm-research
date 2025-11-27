@@ -17,7 +17,7 @@ A modular, future-proof experiment framework for research and development on **V
 
 ## Project Structure
 
-```
+```text
 vlm-research/
 ├── main.py                            # Lightweight experiment dispatcher
 ├── experiment_registry.yaml           # Maps experiment name -> experiments/<name>/run.py
