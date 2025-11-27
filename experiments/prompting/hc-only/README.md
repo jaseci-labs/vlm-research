@@ -1,8 +1,8 @@
-# Hand Conded Prompt Evaluation
+# Hand Crafted Prompt Evaluation
 
-This folder contains evaluation scripts and Jupyter notebooks for testing and comparing visual language model (VLM) captioning performance across two datasets: **CAR Damage Dataset (CARDD)** and **Flickr30k**. It includes automated metric evaluation using CIDEr, SPICE, and cosine similarity.
+This folder contains evaluation scripts for testing and comparing captioning performance across two datasets: **CAR Damage Dataset (CARDD)** and **Flickr30k**. It includes automated metric evaluation using CIDEr, SPICE, and cosine similarity.
 
-## 📂 Files Overview
+## Files Overview
 
 ### `cardd_pixtral.ipynb`
 
@@ -32,7 +32,7 @@ Captioning and evaluation of Flickr30k images using the **Qwen-VL** model.
 
 - Follows the same pipeline as `flickr30k_pixtral.ipynb` but replaces the model for side-by-side comparisons.
 
-## ⚙️ How to Run the Notebooks
+## How to Run the Notebooks
 
 1. **Install dependencies**:
    Make sure you have the required packages installed:
@@ -60,7 +60,3 @@ Captioning and evaluation of Flickr30k images using the **Qwen-VL** model.
 
      - `prompt_tuning_results_cardd_qwen.xlsx`, etc.
    - Visual logs pushed to your [Weights & Biases](https://wandb.ai/vlm-research) project.
-
-## 📧 Contact
-
-Built by [Gayanuka Amarasuriya](https://gayanukaa.github.io/).
