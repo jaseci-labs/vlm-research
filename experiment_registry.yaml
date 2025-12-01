@@ -1,15 +1,102 @@
+# VLM Research - Experiment Registry
+# Maps experiment to their modules and available scripts
+
 experiments:
-  - name: prompt_eval
-    description: "Prompt quality comparison with different styles and shots"
-    module: prompt_eval
+  # ============================================
+  # PROMPTING EXPERIMENTS
+  # ============================================
+  - name: kie
+    description: "Key Information Extraction from receipts/invoices using Gemma-3"
+    module: prompting/kie
+    active: true
+    scripts:
+      - load_dataset
+      - finetune
+      - inference
+      - evaluate
+    config_overrides:
+      model: gemma3_12b
+      dataset: kie
+      training: lora
+
+  - name: cardd
+    description: "Car damage assessment with structured JSON extraction"
+    module: prompting/cardd
+    active: true
+    scripts:
+      - finetune
+      - inference
+
+  - name: flickr
+    description: "Flickr30k image captioning fine-tuning"
+    module: prompting/flickr
+    active: true
+    scripts:
+      - finetune
+      - inference
+
+  # ============================================
+  # KNOWLEDGE DISTILLATION
+  # ============================================
+  - name: knowledge_distillation_phase1
+    description: "Phase 1: Teacher caption generation & initial student training"
+    module: knowledge_distillation/phase_1
+    active: true
+    scripts:
+      - teacher_captions
+      - student_model_finetune
+      - student_model_inference_single
+      - student_model_inference_multi
+
+  - name: knowledge_distillation_phase2
+    description: "Phase 2: Model comparison & AI-based evaluation"
+    module: knowledge_distillation/phase_2
+    active: true
+    scripts:
+      - student_model_finetune
+      - inference_models
+      - AI_evaluate_responses
+
+  - name: knowledge_distillation_phase3
+    description: "Phase 3: RSICD dataset distillation"
+    module: knowledge_distillation/phase_3
     active: true
 
-  - name: peft_vs_full
-    description: "Compare LoRA, QLoRA, and full fine-tuning"
-    module: training_comparison
+  - name: knowledge_distillation_phase4
+    description: "Phase 4: 8-bit quantization experiments"
+    module: knowledge_distillation/phase_4
     active: true
 
-  - name: image_impact
-    description: "Vary training image count to study performance scaling"
-    module: data_impact
+  # ============================================
+  # OCR / DOCUMENT UNDERSTANDING
+  # ============================================
+  - name: ocr_gemma3
+    description: "OCR and KIE using Gemma-3 variants with quantization"
+    module: ocr_gemma3
     active: true
+    scripts:
+      - base_inferencing
+      - bnb_quantized_inf
+      - unsloth_inference
+
+  # ============================================
+  # PROMPT TUNING RESEARCH
+  # ============================================
+  - name: prompt_tuning
+    description: "Soft prompt tuning experiments on VLMs (research/exploratory)"
+    module: prompt-tuning
+    active: true
+    notes: "Research into prompt tuning limitations on modern VLMs"
+
+  # ============================================
+  # QUALITATIVE ANALYSIS
+  # ============================================
+  - name: qualitative_analysis
+    description: "Qualitative evaluation notebooks for various VLMs"
+    module: qualitative-analysis
+    active: true
+    models_tested:
+      - gemma3_12b
+      - molmo_7b
+      - pixtral_12b
+      - llama32_11b
