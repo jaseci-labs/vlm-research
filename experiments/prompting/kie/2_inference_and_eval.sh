@@ -1,8 +1,7 @@
 #!/bin/bash
 # ============================================================================
-# This script runs inference on fine-tuned models and evaluates them.
-# It loops over all prompts in prompts.yml and evaluates each corresponding
-# fine-tuned model.
+# Runs inference on fine-tuned models and evaluates them.
+# It loops over all prompts in prompts.yml and evaluates each corresponding fine-tuned model.
 #
 # Usage:
 #   - For LOCAL models: Leave HF_MODEL_REPO empty, models loaded from MODEL_DIR_BASE

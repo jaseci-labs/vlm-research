@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# This script fine-tunes the Gemma-3-12B-IT model on KIE dataset.
+# Fine-tunes the model on KIE dataset.
 # It loops over all prompts in prompts.yml and creates a fine-tuned model
 # for each prompt. Optionally uploads models to HuggingFace.
 # ============================================================================

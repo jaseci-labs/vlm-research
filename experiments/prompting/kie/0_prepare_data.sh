@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# This script loads the KIE dataset and splits it into train/eval/test sets.
+# Loads the KIE dataset and splits it into train/eval/test sets.
 # Run this script FIRST before running any other scripts.
 # ============================================================================
 
