@@ -1,0 +1,36 @@
+# Key Information Extraction (KIE) Dataset Configuration
+# Dataset: nanonets/key_information_extraction
+
+name: kie
+display_name: "Key Information Extraction"
+description: "Receipt/invoice document KIE with 8 extraction fields"
+
+# HuggingFace dataset
+hf_name: "nanonets/key_information_extraction"
+hf_link: "https://huggingface.co/datasets/nanonets/key_information_extraction"
+hf_split: "test"
+
+# Local split configuration
+output_dir: "./kie_splits"
+train_ratio: 0.6
+eval_ratio: 0.2
+test_ratio: 0.2
+seed: 42
+
+# Dataset structure
+fields:
+  - date
+  - doc_no_receipt_no
+  - seller_name
+  - seller_address
+  - seller_phone
+  - seller_gst_id
+  - total_tax
+  - total_amount
+
+# Image field name in dataset
+image_field: "image"
+annotation_field: "annotations"
+
+# Task type
+task: "key_information_extraction"

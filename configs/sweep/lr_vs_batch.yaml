@@ -1,9 +1,0 @@
-defaults:
-  - override /experiment: peft_vs_full
-  - override /model: qwen7b
-  - override /training: default
-  - override /dataset: car_damage
-
-sweep:
-  lr: [1e-5, 5e-5, 1e-4]
-  batch_size: [4, 8, 16]

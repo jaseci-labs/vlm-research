@@ -1,0 +1,21 @@
+# Gemma 3 4B Model Configuration (for knowledge distillation student)
+# Base model: unsloth/gemma-3-4b-it
+
+name: gemma3_4b
+display_name: "Gemma 3 4B Instruct"
+
+# HuggingFace links
+base_model: "unsloth/gemma-3-4b-it"
+hf_link: "https://huggingface.co/unsloth/gemma-3-4b-it"
+
+# Fine-tuned model repository pattern
+hf_finetuned_base: null
+
+# Model loading settings
+load_in_4bit: true
+use_gradient_checkpointing: "unsloth"
+
+# Model capabilities
+vision: true
+max_context_length: 8192
+# Notes: Used as student model in knowledge distillation experiments

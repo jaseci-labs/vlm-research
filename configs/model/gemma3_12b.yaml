@@ -1,0 +1,22 @@
+# Gemma 3 12B Model Configuration
+# Base model: unsloth/gemma-3-12b-it
+
+name: gemma3_12b
+display_name: "Gemma 3 12B Instruct"
+
+# HuggingFace links
+base_model: "unsloth/gemma-3-12b-it"
+hf_link: "https://huggingface.co/unsloth/gemma-3-12b-it"
+
+# Fine-tuned model repository pattern
+# Actual repo: {hf_finetuned_base}-{prompt_key}
+# Example: Gayanukaa/vlm-finetunes-baseline
+hf_finetuned_base: "Gayanukaa/vlm-finetunes"
+
+# Model loading settings
+load_in_4bit: true
+use_gradient_checkpointing: "unsloth"
+
+# Model capabilities
+vision: true
+max_context_length: 8192

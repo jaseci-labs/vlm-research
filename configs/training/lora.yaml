@@ -1,16 +1,18 @@
-# Default Training Configuration
-# Base training settings (override with specific configs)
+# LoRA Training Configuration
+# Low-Rank Adaptation fine-tuning settings
 
-name: default
-display_name: "Default Training"
+name: lora
+display_name: "LoRA Fine-tuning"
 
-# LoRA hyperparameters (minimal)
+# LoRA hyperparameters
 lora:
-  r: 8
-  alpha: 8
-  dropout: 0.01
+  r: 8 # LoRA rank
+  alpha: 8 # LoRA alpha scaling
+  dropout: 0.01 # LoRA dropout
   bias: "none"
   use_rslora: false
+
+  # Which layers to fine-tune
   finetune_vision_layers: false
   finetune_language_layers: true
   finetune_attention_modules: false
@@ -19,24 +21,30 @@ lora:
 # Training hyperparameters
 training:
   learning_rate: 2e-4
-  per_device_train_batch_size: 4
+  per_device_train_batch_size: 8
   gradient_accumulation_steps: 1
-  warmup_ratio: 0.1
-  max_steps: 100
+  warmup_ratio: 0.13
+  max_steps: 75
   max_seq_length: 2048
 
+  # Precision
   fp16: true
-  bf16: false
+  bf16: false # Auto-detected if available
 
+  # Optimizer
   optim: "adamw_8bit"
   lr_scheduler_type: "cosine"
   weight_decay: 0.01
 
+  # Evaluation
   eval_strategy: "steps"
   eval_steps: 10
   save_strategy: "steps"
   save_steps: 10
   load_best_model_at_end: true
 
+  # Logging
   logging_steps: 5
-  seed: 3407
+
+  # Reproducibility
+  seed: 3407 # Unsloth's magic seed

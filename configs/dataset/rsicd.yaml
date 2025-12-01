@@ -1,0 +1,19 @@
+# RSICD Dataset Configuration
+# Remote Sensing Image Captioning Dataset
+
+name: rsicd
+display_name: "RSICD - Remote Sensing Image Captioning"
+description: "Remote sensing satellite imagery captioning dataset"
+
+# HuggingFace dataset
+hf_name: null # Loaded from local or custom source
+hf_link: null
+
+# Local configuration
+train_ratio: 0.6
+eval_ratio: 0.2
+test_ratio: 0.2
+seed: 42
+
+# Task type
+task: "image_captioning"

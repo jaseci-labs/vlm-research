@@ -1,0 +1,26 @@
+# Car Damage Dataset Configuration
+
+name: car_damage
+display_name: "Car Damage Assessment"
+description: "Vehicle damage images for insurance assessment"
+
+# HuggingFace dataset
+hf_name: null
+hf_link: null
+
+image_dir: "./image_dataset"
+train_ratio: 0.6
+eval_ratio: 0.2
+test_ratio: 0.2
+seed: 42
+
+# Output schema
+fields:
+  - damage_location
+  - damage_type
+  - damage_severity
+  - repair_estimate
+  - insurance_report
+
+# Task type
+task: "structured_extraction"
