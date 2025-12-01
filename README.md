@@ -1,140 +1,81 @@
 # VLM Research Experiment Framework
 
-A modular, future-proof experiment framework for research and development on **Visual Language Models (VLMs)**. Built with **Hydra**, **Weights & Biases**, and extensible YAML-based configurations — ideal for conducting prompting experiments, fine-tuning comparisons, training image impact studies, and more.
-
----
 <!--
-## Features
+## 📄 Paper
+**Title:** [Your Paper Title Here]
+**Authors:** [Author Names]
+**Conference/Journal:** [Venue, Year]
 
-- Modular config-based experiment control (via [Hydra](https://hydra.cc))
-- W&B integration for grouped runs, logging, and comparisons
-- Supports **PEFT vs full fine-tuning**, image ablation, and prompting studies
-- Clean architecture for easily extending models, datasets, and tasks
-- Hydra sweep support for systematic hyperparameter tuning
-- Ready for scaling to large experiments
--->
----
-
-## Project Structure
-
-```text
-vlm-research/
-├── main.py                            # Lightweight experiment dispatcher
-├── experiment_registry.yaml           # Maps experiment name -> experiments/<name>/run.py
-│
-├── experiments/                       # Each experiment is isolated and self-contained
-│   ├── peft_vs_full/
-│   │   ├── run.py                     # Entry point for this experiment
-│   │   ├── logic.py                   # Core training/eval logic
-│   │   ├── config.yaml                # Local override config (Hydra)
-│   │   ├── outputs/
-│   │   └── logs/                      # Hydra logs and model artifacts
-│   │
-│   └──  prompt_eval/
-│       ├── run.py
-│       ├── evaluator.py
-│       ├── config.yaml
-│       ├── outputs/
-│       └── logs/                      # Hydra logs and model artifacts
-│
-├── configs/                           # Global Hydra configs (model, dataset, sweep)
-│   ├── config.yaml
-│   ├── model/
-│   ├── training/
-│   ├── dataset/
-│   └── sweep/
-│
-├── core/                              # Shared utilities
-│   ├── wandb_utils.py
-│   ├── loaders.py
-│   ├── metrics.py
-│   └── registry.py                    # Load experiment modules dynamically
-│
-├── README.md
-└── requirements.txt
+```bibtex
+@article{your_citation_key,
+  title={Your Paper Title},
+  author={Author Names},
+  journal={Journal/Conference},
+  year={2025}
+}
 ```
+-->
 
----
+A modular, future-proof experiment framework for research and development on Visual Language Models (VLMs). Ideal for conducting prompting experiments, fine-tuning comparisons, training image impact studies, and more.
 
-## Installation
+## Quick Start
+
+### Installation
 
 ```bash
-git clone https://github.com/yourusername/vlm-research.git
+git clone https://github.com/Jaseci-Labs/vlm-research.git
 cd vlm-research
 pip install -r requirements.txt
 ```
 
----
+## Configuration
 
-## Running Experiments
+### Models
 
-### Run a single experiment
+| Config       | Base Model                     | HuggingFace Link                                            |
+| ------------ | ------------------------------ | ----------------------------------------------------------- |
+| `gemma3_12b` | `unsloth/gemma-3-12b-it`       | [Link](https://huggingface.co/unsloth/gemma-3-12b-it)       |
+| `gemma3_4b`  | `unsloth/gemma-3-4b-it`        | [Link](https://huggingface.co/unsloth/gemma-3-4b-it)        |
+| `qwen7b`     | `unsloth/Qwen2-VL-7B-Instruct` | [Link](https://huggingface.co/unsloth/Qwen2-VL-7B-Instruct) |
 
-```bash
-python main.py experiment=peft_vs_full model=qwen7b dataset=car_damage
+### Datasets
+
+| Config       | Dataset                    | HuggingFace Link                                                                                           |
+| ------------ | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `kie`        | Key Information Extraction | [nanonets/key_information_extraction](https://huggingface.co/datasets/nanonets/key_information_extraction) |
+| `flickr`     | Flickr30k Image Captioning | [nlphuji/flickr30k](https://huggingface.co/datasets/nlphuji/flickr30k)                                     |
+| `car_damage` | Car Damage Assessment      | Custom                                                                                                     |
+| `rsicd`      | Remote Sensing Captioning  | Custom                                                                                                     |
+
+## Development
+
+### Adding a New Experiment
+
+1. Create folder: `experiments/<your_experiment>/`
+2. Add scripts: `finetune.py`, `inference.py`, `evaluate.py`
+3. Register in `experiment_registry.yaml`
+4. (Optional) Add config overrides in `configs/`
+
+### Shared Utilities
+
+Import from `utils/` package:
+
+```python
+from utils import (
+    load_model,
+    load_and_split_dataset,
+    evaluate_kie_predictions,
+    run_inference,
+    init_wandb,
+)
 ```
 
-### Run a hyperparameter sweep (Hydra multirun)
+## License
 
-```bash
-python main.py -m sweep.lr=1e-5,5e-5,1e-4 sweep.batch_size=4,8,16
-```
+MIT License - See [LICENSE](LICENSE) for details.
 
-Or with YAML:
+## Acknowledgments
 
-```bash
-python main.py -m +sweep=lr_vs_batch
-```
-
----
-
-## W&B Logging
-
-Each run will automatically log:
-
-- Metrics
-- Config values
-- Grouped by experiment type
-- Custom run names (e.g., `qwen7b_1e-5_8batch`)
-
-W&B project and experiment name are customizable via config.
-
----
-
-## Adding New Experiments
-
-1. Add new YAML to `configs/experiment/`
-2. Update `experiment_registry.yaml`
-3. Add handling logic to `runner.py`
-
----
-<!--
-## Ideal Use Cases
-
-- VLM-based insurance prediction
-- Prompt vs. finetuning comparison studies
-- Training data ablation experiments
-- Academic/research reproducibility
-
----
-
-## TODO / Coming Soon
-
-- [ ] Hugging Face model auto-loading
-- [ ] Fine-tuning via Unsloth or LoRA
-- [ ] Built-in evaluation metrics for VQA, OCR, etc.
-- [ ] Frontend integration with Jac Vision UI
-- [ ] On-the-fly model training via backend API
-
----
-
-## Contributing
-
-We're building this as a flexible backend for the **Jac Vision** no-code platform and for visual AI experimentation. If you're a researcher, engineer, or builder — PRs and suggestions are welcome.
-
----
-
-## 📄 License
-
-MIT — free to use, extend, and share.
--->
+- [Unsloth](https://github.com/unslothai/unsloth) - Efficient VLM training
+- [Hugging Face](https://huggingface.co/) - Models and datasets
+- [Weights & Biases](https://wandb.ai/) - Experiment tracking

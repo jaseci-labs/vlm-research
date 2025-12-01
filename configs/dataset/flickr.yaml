@@ -1,0 +1,25 @@
+# Flickr30k Dataset Configuration
+# Image captioning dataset with 30k images
+
+name: flickr
+display_name: "Flickr30k"
+description: "Image captioning dataset with 30,000 images and 5 captions each"
+
+# HuggingFace dataset
+hf_name: "nlphuji/flickr30k"
+hf_link: "https://huggingface.co/datasets/nlphuji/flickr30k"
+
+# Dataset splits (uses HF default splits)
+train_ratio: 0.6
+eval_ratio: 0.2
+test_ratio: 0.2
+
+# Local configuration
+seed: 42
+
+# Image field name in dataset
+image_field: "image"
+caption_field: "caption"
+
+# Task type
+task: "image_captioning"
