@@ -1,15 +1,15 @@
 # Investigation: CUDA Initialization Failure on 5th Inference Iteration
 
 **Date:** December 3, 2025  
-**Environment:** RunPod/Docker container, NVIDIA A40 (46GB VRAM), CUDA 12.9  
+**Environment:** RunPod container, NVIDIA A40 (46GB VRAM), CUDA 12.9  
 **Script:** `2_inference_and_eval.sh`  
 **Status:** 🔍 Under Investigation
 
-## 1. Issue Summary
+## Issue Summary
 
 During execution of `2_inference_and_eval.sh`, the script successfully completed inference and evaluation for **4 out of 5 prompts**. On the **5th iteration** (prompt "noisy"), the process failed with a CUDA initialization error despite the GPU being physically available.
 
-## 2. Error Output
+## Error Output
 
 ```bash
 ------------------------------------------------------------------------
@@ -41,7 +41,7 @@ Traceback (most recent call last):
 NotImplementedError: Unsloth cannot find any torch accelerator? You need a GPU.
 ```
 
-## 3. Post-Failure GPU Status
+## Post-Failure GPU Status
 
 Immediately after the failure, `nvidia-smi` confirmed the GPU was healthy and idle:
 
@@ -71,7 +71,7 @@ Wed Dec  3 14:07:01 2025
 
 **Key Observation:** GPU hardware is fine (0% util, 0MiB used, 31°C). The issue is software/driver-level, not hardware.
 
-## 4. Root Cause Analysis
+## Root Cause Analysis
 
 ### Primary Hypothesis: CUDA Context Corruption
 
@@ -93,7 +93,7 @@ The error `CUDA driver initialization failed` indicates the CUDA context (within
 - By iteration 5, the corruption threshold was reached
 - The GPU was "available" but the CUDA driver context was in an invalid state
 
-## 5. Testing & Verification
+## Testing & Verification
 
 ### Test 1: Verify GPU Availability
 
@@ -134,7 +134,7 @@ After applying the resolution below, re-run:
 ./2_inference_and_eval.sh
 ```
 
-## 6. Resolution
+## Resolution
 
 ### Fix 1: Add GPU Cleanup in `inference.py`
 
