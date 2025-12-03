@@ -29,7 +29,7 @@ SAMPLE_INDICES=""  # Empty = all samples, or specify comma-separated indices lik
 MODEL_NAME="gemma-3-12b-it"  # Model name for logging
 USE_WANDB=false
 WANDB_ENTITY="vlm-research"  # WandB team/entity name
-WANDB_PROJECT="kie-experiments"
+WANDB_PROJECT="kie-inferencing"
 WANDB_RUN_NAME_PREFIX="base_model_inference"  # Prefix for WandB run names
 
 # Prompts file

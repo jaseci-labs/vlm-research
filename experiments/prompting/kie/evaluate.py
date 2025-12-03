@@ -280,7 +280,7 @@ def log_metrics_to_wandb(
         return
 
     try:
-        run = wandb.init(entity=wandb_entity, project=wandb_project, name=wandb_run_name, reinit=True)
+        wandb.init(entity=wandb_entity, project=wandb_project, name=wandb_run_name, finish_previous=True)
 
         # Log summary metrics
         avg_kie = sum(kie_scores) / len(kie_scores) if kie_scores else 0.0
