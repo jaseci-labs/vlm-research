@@ -273,6 +273,14 @@ def run_inference_batch(
         print(f"   📝 Prediction: {pred[:100]}...")
 
     print("\n✅ Inference batch complete!")
+
+    # Force cleanup to prevent CUDA issues in long-running loops
+    import gc
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+
     return predictions, ground_truths, inference_times, vram_usage
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run inference on KIE model")
