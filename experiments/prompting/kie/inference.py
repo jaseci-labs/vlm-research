@@ -21,22 +21,22 @@ def clean_json_output(raw_output: str) -> str:
     """
     Clean the model output to extract only the JSON object.
     Removes markdown code blocks, extra text, and formatting.
-    
+
     Args:
         raw_output: Raw output from the model
-        
+
     Returns:
         Clean JSON string
     """
     cleaned = re.sub(r'```json\s*', '', raw_output)
     cleaned = re.sub(r'```\s*$', '', cleaned)
-    
+
     start_idx = cleaned.find('{')
     end_idx = cleaned.rfind('}')
-    
+
     if start_idx != -1 and end_idx != -1 and start_idx <= end_idx:
         cleaned = cleaned[start_idx:end_idx + 1]
-    
+
     cleaned = cleaned.strip()
     return cleaned
 
@@ -124,6 +124,44 @@ def run_inference(
     except Exception as e:
         print(f"❌ Error during inference: {e}")
         return "", 0.0, 0.0
+
+
+def run_warmup(
+    model,
+    tokenizer,
+    num_warmup: int = 2
+):
+    """
+    Run warmup inference to initialize CUDA kernels and stabilize timing.
+
+    Args:
+        model: Vision-language model
+        tokenizer: Tokenizer
+        num_warmup: Number of warmup iterations
+    """
+    print(f"\n🔥 Running {num_warmup} warmup inference(s) to initialize CUDA kernels...")
+
+    # Create a small dummy image for warmup
+    dummy_image = PILImage.new('RGB', (224, 224), color='white')
+    warmup_prompt = "Describe this image briefly."
+
+    for i in range(num_warmup):
+        print(f"   Warmup {i+1}/{num_warmup}...", end=" ", flush=True)
+        _, warmup_time, _ = run_inference(
+            dummy_image,
+            model,
+            tokenizer,
+            warmup_prompt,
+            max_new_tokens=32  # Short output for faster warmup
+        )
+        print(f"done ({warmup_time:.2f}s)")
+
+    # Clear CUDA cache after warmup
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
+    print("✅ Warmup complete! CUDA kernels initialized.\n")
+
+
 def load_model(
     model_path: str,
     load_from_hf: bool = False,
@@ -169,7 +207,8 @@ def run_inference_batch(
     test_dataset,
     prompt: str,
     sample_indices: List[int],
-    max_new_tokens: int = 256
+    max_new_tokens: int = 256,
+    skip_warmup: bool = False
 ) -> tuple[Dict[int, str], Dict[int, str], Dict[int, float], Dict[int, float]]:
     """
     Run inference on a batch of samples using greedy decoding.
@@ -181,10 +220,15 @@ def run_inference_batch(
         prompt: Instruction prompt
         sample_indices: List of sample indices to process
         max_new_tokens: Maximum tokens to generate
+        skip_warmup: Skip warmup inference (default: False)
 
     Returns:
         Tuple of (predictions, ground_truths, inference_times, vram_usage)
     """
+    # Run warmup to initialize CUDA kernels (avoids inflated first inference time)
+    if not skip_warmup:
+        run_warmup(model, tokenizer, num_warmup=2)
+
     predictions = {}
     ground_truths = {}
     inference_times = {}
@@ -252,6 +296,8 @@ if __name__ == "__main__":
     # Inference parameters
     parser.add_argument("--max-new-tokens", type=int, default=256,
                         help="Maximum tokens to generate")
+    parser.add_argument("--skip-warmup", action="store_true",
+                        help="Skip warmup inference (not recommended)")
 
     # Output
     parser.add_argument("--output-dir", type=str, default="./inference_results",
@@ -288,7 +334,8 @@ if __name__ == "__main__":
         test_dataset,
         args.prompt,
         sample_indices,
-        args.max_new_tokens
+        args.max_new_tokens,
+        skip_warmup=args.skip_warmup
     )
 
     # Save results
