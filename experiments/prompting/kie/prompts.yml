@@ -25,6 +25,44 @@ baseline:
     }
     Document: {image_input}
 
+descriptive_roleplay:
+  name: "Descriptive Role-play Prompt"
+  text: |
+    You are a professional data entry clerk working in the finance department.
+    Your task is to carefully read the scanned document and extract only the key business fields.
+    Do not summarize or add extra information, just act like you are typing values into a database form.
+
+    Some of the fields are:
+    - InvoiceNumber
+    - Date
+    - VendorName
+    - TotalAmount
+
+    Provide your answer in valid JSON format:
+    {"InvoiceNumber": "...", "Date": "...", "VendorName": "...", "TotalAmount": "..."}
+
+    Document: {image_input}
+
+format_guided:
+  name: "Format Guided Prompt"
+  text: |
+    You are a document parser.
+    Always respond in the exact JSON schema below, with no extra text:
+
+    {
+      "date": "DD/MM/YYYY or similar format",
+      "doc_no_receipt_no": "...",
+      "seller_name": "...",
+      "seller_address": "...",
+      "seller_phone": "...",
+      "seller_gst_id": "...",
+      "total_tax": "...",
+      "total_amount": "...",
+      "InvoiceNumber": "string"
+    }
+
+    Document: {image_input}
+
 masked:
   name: "Masked Prompt"
   text: |
@@ -47,6 +85,15 @@ masked:
       "total_tax": "...",
       "total_amount": "..."
     }
+
+noisy:
+  name: "Noisy Prompt"
+  text: |
+    Ok so, here's this kinda messy bill/receipt scan we have.
+    just extract the important bits.
+
+    Dump all that neatly into JSON, no chit chat.
+    Document: {image_input}
 
 # few_shot:
 #   name: "Few-shot Prompt"
