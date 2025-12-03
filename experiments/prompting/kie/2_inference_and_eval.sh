@@ -28,6 +28,7 @@ SAMPLE_INDICES=""  # Empty = all samples, or specify comma-separated indices lik
 # Evaluation parameters
 MODEL_NAME="gemma-3-12b-it"  # Model name for logging
 USE_WANDB=false
+WANDB_ENTITY="vlm-research"  # WandB team/entity name
 WANDB_PROJECT="kie-experiments"
 WANDB_RUN_NAME_PREFIX="base_model_inference"  # Prefix for WandB run names
 
@@ -93,6 +94,7 @@ echo "Evaluation Parameters:"
 echo "  - Model Name: $MODEL_NAME"
 echo "  - Use WandB: $USE_WANDB"
 if [ "$USE_WANDB" = true ]; then
+    echo "  - WandB Entity: $WANDB_ENTITY"
     echo "  - WandB Project: $WANDB_PROJECT"
     echo "  - WandB Run Name Prefix: $WANDB_RUN_NAME_PREFIX"
 fi
@@ -250,7 +252,7 @@ for i, (key, prompt) in enumerate(data):
 
     # Add WandB flags if enabled
     if [ "$USE_WANDB" = true ]; then
-        EVAL_CMD="$EVAL_CMD --use-wandb --wandb-project \"$WANDB_PROJECT\" --wandb-run-name \"$WANDB_RUN_NAME\""
+        EVAL_CMD="$EVAL_CMD --use-wandb --wandb-entity \"$WANDB_ENTITY\" --wandb-project \"$WANDB_PROJECT\" --wandb-run-name \"$WANDB_RUN_NAME\""
     fi
 
     eval $EVAL_CMD

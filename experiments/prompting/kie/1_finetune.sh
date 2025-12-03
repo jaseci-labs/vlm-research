@@ -23,6 +23,7 @@ HF_REPO_BASE=""  # Base repo ID (e.g., "Gayanukaa/vlm-finetunes")
 
 # WandB logging (set to true to enable)
 USE_WANDB=false
+WANDB_ENTITY="vlm-research"  # WandB team/entity name
 WANDB_PROJECT="kie-finetuning"
 WANDB_RUN_NAME_PREFIX="kie_ft"  # Will be appended with prompt key and timestamp
 
@@ -110,6 +111,7 @@ fi
 echo ""
 echo "WandB Logging: $USE_WANDB"
 if [ "$USE_WANDB" = true ]; then
+    echo "  - Entity: $WANDB_ENTITY"
     echo "  - Project: $WANDB_PROJECT"
     echo "  - Run Name Prefix: $WANDB_RUN_NAME_PREFIX"
 fi
@@ -246,7 +248,7 @@ for i, (key, prompt) in enumerate(data):
     if [ "$USE_WANDB" = true ]; then
         TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
         WANDB_RUN_NAME="${WANDB_RUN_NAME_PREFIX}_${KEY}_${TIMESTAMP}"
-        WANDB_FLAGS="--use-wandb --wandb-project $WANDB_PROJECT --wandb-run-name $WANDB_RUN_NAME --wandb-tags finetune $KEY"
+        WANDB_FLAGS="--use-wandb --wandb-entity $WANDB_ENTITY --wandb-project $WANDB_PROJECT --wandb-run-name $WANDB_RUN_NAME --wandb-tags finetune $KEY"
     else
         WANDB_FLAGS=""
     fi
