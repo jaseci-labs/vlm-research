@@ -255,6 +255,7 @@ def log_metrics_to_wandb(
     test_dataset,
     prompt: str,
     model_name: str,
+    wandb_entity: str = None,
     wandb_project: str = "kie-experiments",
     wandb_run_name: str = None
 ):
@@ -281,7 +282,7 @@ def log_metrics_to_wandb(
         return
 
     try:
-        run = wandb.init(project=wandb_project, name=wandb_run_name, reinit=True)
+        run = wandb.init(entity=wandb_entity, project=wandb_project, name=wandb_run_name, reinit=True)
 
         # Log summary metrics
         avg_kie = sum(kie_scores) / len(kie_scores) if kie_scores else 0.0
@@ -359,8 +360,10 @@ if __name__ == "__main__":
     # WandB
     parser.add_argument("--use-wandb", action="store_true",
                         help="Enable WandB logging")
+    parser.add_argument("--wandb-entity", type=str, default=None,
+                        help="WandB entity/team name")
     parser.add_argument("--wandb-project", type=str, default="kie-eval",
-                        help="WandB project name")
+                        help="WandB project name"))
     parser.add_argument("--wandb-run-name", type=str, default=None,
                         help="WandB run name (optional)")
 
@@ -428,6 +431,7 @@ if __name__ == "__main__":
             test_dataset,
             prompt,
             args.model_name,
+            args.wandb_entity,
             args.wandb_project,
             args.wandb_run_name
         )

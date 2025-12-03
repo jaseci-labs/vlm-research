@@ -25,6 +25,7 @@ def finetune_model(
     upload_to_hf: bool = False,
     # WandB config
     use_wandb: bool = False,
+    wandb_entity: str = None,
     wandb_project: str = "kie-finetuning",
     wandb_run_name: str = None,
     wandb_tags: list = None,
@@ -81,14 +82,15 @@ def finetune_model(
     if use_wandb:
         try:
             import wandb
-            
+
             # Initialize WandB - minimal config for loss tracking only
             wandb.init(
+                entity=wandb_entity,
                 project=wandb_project,
                 name=wandb_run_name,
                 tags=wandb_tags or []
             )
-            print(f"✅ WandB initialized: {wandb_project}/{wandb_run_name}")
+            print(f"✅ WandB initialized: {wandb_entity}/{wandb_project}/{wandb_run_name}")
             report_to = "wandb"
         except ImportError:
             print("⚠️  WandB not installed. Install with: pip install wandb")
@@ -188,7 +190,7 @@ def finetune_model(
 
     # Calculate warmup steps
     warmup_steps = int(max_steps * warmup_ratio)
-    
+
     # Calculate eval and save steps to ensure compatibility with load_best_model_at_end
     eval_steps = max(10, max_steps // 10)
     save_steps = eval_steps  # Make save_steps equal to eval_steps to ensure they're compatible
@@ -369,6 +371,8 @@ if __name__ == "__main__":
     # WandB logging
     parser.add_argument("--use-wandb", action="store_true",
                         help="Enable WandB logging for loss tracking")
+    parser.add_argument("--wandb-entity", type=str, default=None,
+                        help="WandB entity/team name")
     parser.add_argument("--wandb-project", type=str, default="kie-finetuning",
                         help="WandB project name")
     parser.add_argument("--wandb-run-name", type=str, default=None,
@@ -420,6 +424,7 @@ if __name__ == "__main__":
         repo_id=args.repo_id,
         upload_to_hf=args.upload_to_hf,
         use_wandb=args.use_wandb,
+        wandb_entity=args.wandb_entity,
         wandb_project=args.wandb_project,
         wandb_run_name=args.wandb_run_name,
         wandb_tags=args.wandb_tags,
