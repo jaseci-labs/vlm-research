@@ -243,8 +243,6 @@ def log_metrics_to_excel(
     return df
 
 
-# ----- WandB logging (optional) -----
-
 def log_metrics_to_wandb(
     sample_indices: List[int],
     predictions: Dict[int, str],
@@ -363,7 +361,7 @@ if __name__ == "__main__":
     parser.add_argument("--wandb-entity", type=str, default=None,
                         help="WandB entity/team name")
     parser.add_argument("--wandb-project", type=str, default="kie-eval",
-                        help="WandB project name"))
+                        help="WandB project name")
     parser.add_argument("--wandb-run-name", type=str, default=None,
                         help="WandB run name (optional)")
 
