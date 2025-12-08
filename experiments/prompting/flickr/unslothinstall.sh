@@ -20,6 +20,7 @@ pip install sentence-transformers>=2.2.2
 pip install XlsxWriter
 pip install openpyxl
 python -m ipykernel install --user --name=unsloth_env --display-name "Python (unsloth_env)"
+pip install "datasets<4.0.0" "huggingface_hub<0.26.0" pandas    #newly added
 
 
 # Install Java 8
