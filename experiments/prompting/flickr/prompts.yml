@@ -1,0 +1,70 @@
+baseline:
+  name: "Baseline Prompt"
+  text: |
+    Describe the image in detail.
+
+descriptive_roleplay:
+  name: "Descriptive Role-play Prompt"
+  text: |
+    You are a professional photo journalist working for a leading magazine. Given the image, describe the scene vividly as if you are writing a caption for publication.
+    Focus on who is present, what they are doing, where the scene takes place, and any relevant background or atmosphere. Write in clear, engaging, full sentences.
+
+format_guided:
+  name: "Format Guided Prompt"
+  text: |
+    Please respond strictly in the following format (do not deviate):
+    Main Subject: …
+    Actions: …
+    Scene/Location: …
+    Objects Present: …
+    Context/Details: …
+    After listing, include a short 2-3 sentence caption that ties these elements into a natural description.
+
+masked:
+  name: "Masked Prompt"
+  text: |
+    Fill in the slots based on the image:
+    Main Subject: <mask>
+    Action: <mask>
+    Location: <mask>
+    Objects: <mask>
+    Background: <mask>
+    Look carefully at the image and replace <mask> values with the correct information. Conclude with a natural caption sentence.
+
+noisy:
+  name: "Noisy Prompt"
+  text: |
+    ok so, plz say what ppl doin?? where they r?? clothes colors?? objects?? keep it short thx.
+
+cot:
+  name: "Chain of Thought Prompt"
+  text: |
+    You are a professional photo journalist writing image captions for a major magazine.
+
+    Carefully analyze the image.
+    Think through the captioning process step-by-step internally:
+    - First, identify the main visible subjects (people, animals, objects).
+    - Determine what each main subject is doing (actions, interactions, poses).
+    - Infer the setting and background (indoor/outdoor, location, time of day, environment).
+    - Notice important visual attributes (clothing, colors, expressions, relative positions).
+    - Consider relationships between subjects and any salient objects or context.
+    - Decide which details are most important for a clear, natural caption.
+    - Mentally draft and refine a fluent sentence that a human would naturally write.
+    - Do NOT reveal your reasoning or internal steps.
+
+    After completing your internal reasoning, provide ONLY the final caption.
+
+extended:
+  name: "Extended Prompt"
+  text: |
+    You are a caption generation system designed to describe natural images from the Flickr30k dataset,
+    which consists of everyday photographs sourced from the web.
+    These images capture real-life scenes involving people, animals, objects, and environments in varied social, recreational, and urban contexts.
+    Your task is to produce a single sentence caption that accurately summarizes the visible content of each image without relying on prior knowledge, metadata, or inferred context.
+
+    Focus on concrete visual details—clearly identifiable entities, their activities, interactions, and physical surroundings.
+    Many images contain people engaged in actions such as sports, travel, leisure, or group events, often with rich background elements like vehicles, buildings, vegetation, or signage.
+    Use spatial terms where relevant (e.g., “two children sitting on a bench” or “a man walking behind a stroller”) to clarify relationships between elements.
+
+    Do not include personal names, hypothetical context, or subjective opinions. Avoid embellishments and stylistic flourishes.
+    Your caption must be grammatically correct, precise, and written in natural human language. Only describe what is visually verifiable in the image content.
