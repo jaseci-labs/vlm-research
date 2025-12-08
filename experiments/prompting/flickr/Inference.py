@@ -121,6 +121,33 @@ def run_inference(
 
 # Warmup Function
 
+def run_warmup(
+    model,
+    tokenizer,
+    num_warmup: int = 2
+):
+    """
+    Run warmup inference to initialize CUDA kernels and stabilize timing.
+
+    Args:
+        model: Vision-language model
+        tokenizer: Tokenizer
+        num_warmup: Number of warmup iterations
+    """
+    print(f"\n🔥 Running {num_warmup} warmup inference(s) to initialize CUDA kernels...")
+
+    # Create a small dummy image for warmup
+    dummy_image = PILImage.new('RGB', (224, 224), color='white')
+    warmup_prompt = "Describe this image briefly."
+
+    for i in range(num_warmup):
+        print(f"   Warmup {i+1}/{num_warmup}...", end=" ", flush=True)
+        _, warmup_time, _ = run_inference(
+            dummy_image,
+            model,
+            tokenizer,
+            warmup_prompt,
+            max_new_tokens=32  # Short output for faster warmup
         )
         print(f"done ({warmup_time:.2f}s)")
 

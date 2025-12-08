@@ -20,7 +20,8 @@ HF_REPO_BASE=""    # Base repo ID (e.g., "Hushan-10/vlm-finetunes")
 
 # WandB logging (set to true to enable)
 USE_WANDB=false
-WANDB_PROJECT="flickr30k-finetuning"
+WANDB_ENTITY="vlm-research"
+WANDB_PROJECT="flickr-finetuning"
 WANDB_RUN_NAME_PREFIX="flickr30k_ft"  # Will be appended with prompt key and timestamp
 
 # LoRA configuration

@@ -30,7 +30,8 @@ SAMPLE_INDICES=""  # Empty = all samples, or specify comma-separated indices lik
 # Evaluation parameters
 MODEL_NAME="gemma-3-12b-it"  # Model name for logging
 USE_WANDB=false
-WANDB_PROJECT="flickr30k-experiments"
+WANDB_ENTITY="vlm-research"
+WANDB_PROJECT="flickr-inferencing"
 WANDB_RUN_NAME_PREFIX="base_model_inference"  # Prefix for WandB run names
 
 # Prompts file
