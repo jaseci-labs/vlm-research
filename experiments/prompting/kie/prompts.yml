@@ -95,6 +95,85 @@ noisy:
     Dump all that neatly into JSON, no chit chat.
     Document: {image_input}
 
+CoT:
+  name: "chain_of_thought_prompt"
+  text:  |
+      You are an information extraction model.
+
+      Carefully analyze the document. 
+      Think through the extraction process step-by-step internally:
+      - First, identify all possible candidate text regions.
+      -  Compare similar candidates and resolve ambiguities.
+      - Cross check numeric fields for consistency.
+      - Infer missing information logically whenever possible.
+      - Do NOT reveal your reasoning or internal steps.
+
+      After completing your internal reasoning, provide ONLY the final JSON output.
+
+      Extract the following fields:
+      - date
+      - doc_no_receipt_no
+      - seller_name
+      - seller_address
+      - seller_phone
+      - seller_gst_id
+      - total_tax
+      - total_amount
+
+      Answer strictly in JSON format:
+      {
+        "date": "...",
+        "doc_no_receipt_no": "...",
+        "seller_name": "...",
+        "seller_address": "...",
+        "seller_phone": "...",
+        "seller_gst_id": "...",
+        "total_tax": "...",
+        "total_amount": "..."
+      }
+
+      Document: {image_input}
+  
+extended:
+  name: "extended_prompt"
+  text: |
+      You are an expert document understanding and information extraction agent, 
+      specifically trained to process scanned receipts, invoices, bills, 
+      and other commercial documents with a high degree of precision. Your task is to carefully analyze each document and extract structured information from it,
+      capturing only the relevant fields while ignoring irrelevant text, logos, promotional content, and decorative elements. 
+      Pay attention to text layout, spatial cues, font variations, alignment, and contextual clues to identify each field accurately. 
+      Consider multi-line fields, line breaks, and OCR errors. 
+      Use context to infer missing information where possible, such as phone numbers located near the seller’s address or tax IDs close to the seller name. 
+      Preserve currency symbols, decimal points, and any formatting present in the document. 
+      Validate that numerical fields make sense relative to each other (e.g., total_tax should not exceed total_amount). 
+      Focus on semantic consistency, remove irrelevant noise, and ensure extracted fields reflect the document context accurately.
+      
+      Follow these rules carefully:
+      
+      1. Match Labels and Synonyms: Use exact field labels or common variations (e.g., "Tax ID", "GST No.", "TIN").
+      2. Position Awareness: Use the layout of the document to infer missing labels (e.g., phone number near store name).
+      3. Text Cleanup: Remove OCR noise, headers, and irrelevant content.
+      4. Currency Handling: Preserve currency symbols and decimal formatting in monetary values.
+      5. Missing or Unreadable Fields: If a field is not present or unreadable, return its value as "".
+      6. Field Consistency: Always return the same 8 fields, in the exact order shown below.
+      
+      Output format must strictly match this schema:
+      {
+        "date": "DD/MM/YYYY or similar format",
+        "doc_no_receipt_no": "...",
+        "seller_name": "...",
+        "seller_address": "...",
+        "seller_phone": "...",
+        "seller_gst_id": "...",
+        "total_tax": "...",
+        "total_amount": "..."
+      }
+      
+      Do not provide any explanations, reasoning steps, or additional text;
+      only produce the JSON output. Carefully validate all extracted values for accuracy and consistency.
+  
+      Document: {image_input}
+
 # few_shot:
 #   name: "Few-shot Prompt"
 #   examples:
