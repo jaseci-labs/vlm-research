@@ -40,7 +40,7 @@ class Prediction:
         return None
 
 
-# ----- Scoring function -----
+# ----- Scoring functions -----
 
 def get_kie_metrics(predictions: List[Prediction]) -> tuple[float, List[float]]:
     """
@@ -79,19 +79,125 @@ def get_kie_metrics(predictions: List[Prediction]) -> tuple[float, List[float]]:
     return overall_avg, sample_scores
 
 
+def get_field_level_accuracy(predictions: List[Prediction]) -> tuple[float, List[float]]:
+    """
+    Compute field-level accuracy (exact match) per prediction.
+
+    Returns:
+        - overall average accuracy
+        - list of per-sample accuracy scores
+    """
+    sample_scores = []
+
+    for pred in tqdm(predictions, desc="Computing field-level accuracy", leave=False):
+        gt_fields = pred.gt.fields
+        correct_fields = 0
+        total_fields = len(gt_fields)
+
+        for gt_field in gt_fields:
+            pred_field = pred._get_pred_field_by_label(gt_field.label)
+            if pred_field is None:
+                pred_value = ""
+            else:
+                pred_value = pred_field.value
+
+            pred_value = str(pred_value).strip()
+            gt_value = str(gt_field.value).strip()
+
+            # Exact match check
+            if pred_value == gt_value:
+                correct_fields += 1
+
+        sample_accuracy = correct_fields / total_fields if total_fields > 0 else 0.0
+        sample_scores.append(sample_accuracy)
+
+    overall_avg = sum(sample_scores) / len(sample_scores) if sample_scores else 0.0
+    return overall_avg, sample_scores
+
+
+def get_f1_scores(predictions: List[Prediction]) -> tuple[float, List[float]]:
+    """
+    Compute F1 score per prediction based on field-level precision and recall.
+
+    F1 considers:
+    - True Positives (TP): Fields with exact match
+    - False Positives (FP): Predicted fields that are incorrect or extra
+    - False Negatives (FN): Ground truth fields that are missing or incorrect
+
+    Returns:
+        - overall average F1 score
+        - list of per-sample F1 scores
+    """
+    sample_scores = []
+
+    for pred in tqdm(predictions, desc="Computing F1 scores", leave=False):
+        gt_fields = pred.gt.fields
+        pred_fields = pred.fields
+
+        # Get all field labels from both GT and prediction
+        gt_labels = {field.label for field in gt_fields}
+        pred_labels = {field.label for field in pred_fields}
+
+        tp = 0  # True positives (exact matches)
+        fp = 0  # False positives (incorrect or extra fields)
+        fn = 0  # False negatives (missing or incorrect GT fields)
+
+        # Check ground truth fields
+        for gt_field in gt_fields:
+            pred_field = pred._get_pred_field_by_label(gt_field.label)
+
+            if pred_field is None:
+                # Field missing in prediction
+                fn += 1
+            else:
+                pred_value = str(pred_field.value).strip()
+                gt_value = str(gt_field.value).strip()
+
+                if pred_value == gt_value:
+                    # Exact match
+                    tp += 1
+                else:
+                    # Field present but incorrect
+                    fn += 1
+                    fp += 1
+
+        # Count extra fields in prediction (not in GT)
+        extra_fields = pred_labels - gt_labels
+        fp += len(extra_fields)
+
+        # Calculate precision, recall, and F1
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+
+        if precision + recall > 0:
+            f1 = 2 * (precision * recall) / (precision + recall)
+        else:
+            f1 = 0.0
+
+        sample_scores.append(f1)
+
+    overall_avg = sum(sample_scores) / len(sample_scores) if sample_scores else 0.0
+    return overall_avg, sample_scores
+
+
 # ----- Evaluation wrapper -----
 
-def evaluate_kie_predictions(preds: List[str], gts: List[Dict]) -> tuple[float, List[float]]:
+def evaluate_kie_predictions(preds: List[str], gts: List[Dict]) -> tuple[
+    float, List[float],  # Levenshtein scores
+    float, List[float],  # Field-level accuracy scores
+    float, List[float]   # F1 scores
+]:
     """
-    Evaluate KIE predictions against ground truth using Levenshtein similarity.
+    Evaluate KIE predictions against ground truth using multiple metrics.
 
     Args:
         preds: List of prediction strings (JSON format)
         gts: List of ground truth dicts
 
     Returns:
-        - Average accuracy score across all samples.
-        - List of individual sample-level accuracy scores.
+        Tuple of (avg_levenshtein, per_sample_levenshtein,
+                  avg_field_accuracy, per_sample_field_accuracy,
+                  avg_f1, per_sample_f1)
     """
     assert len(preds) == len(gts), "Predictions and ground truth lists must be the same length."
 
@@ -115,13 +221,22 @@ def evaluate_kie_predictions(preds: List[str], gts: List[Dict]) -> tuple[float, 
             except json.JSONDecodeError:
                 gt_json = {}
 
+        # Create GT fields (order doesn't matter for dict)
         gt_fields = [Field(label, value) for label, value in gt_json.items()]
-        pred_fields = [Field(label, pred_json.get(label, "")) for label in gt_json.keys()]
+
+        # Create prediction fields - include ALL fields from prediction (not just GT fields)
+        # This allows us to detect extra fields in F1 calculation
+        pred_fields = [Field(label, value) for label, value in pred_json.items()]
 
         prediction = Prediction(fields=pred_fields, gt=GroundTruth(gt_fields))
         prediction_objects.append(prediction)
 
-    return get_kie_metrics(prediction_objects)
+    # Compute all metrics
+    avg_lev, per_sample_lev = get_kie_metrics(prediction_objects)
+    avg_acc, per_sample_acc = get_field_level_accuracy(prediction_objects)
+    avg_f1, per_sample_f1 = get_f1_scores(prediction_objects)
+
+    return avg_lev, per_sample_lev, avg_acc, per_sample_acc, avg_f1, per_sample_f1
 
 
 # ----- Excel logging -----
@@ -131,6 +246,8 @@ def log_metrics_to_excel(
     predictions: Dict[int, str],
     ground_truths: Dict[int, str],
     kie_scores: List[float],
+    field_accuracy_scores: List[float],
+    f1_scores: List[float],
     inference_times: Dict[int, float],
     vram_usage: Dict[int, float],
     test_dataset,
@@ -146,6 +263,8 @@ def log_metrics_to_excel(
         predictions: Dictionary of predictions
         ground_truths: Dictionary of ground truths
         kie_scores: List of KIE scores per sample
+        field_accuracy_scores: List of field-level accuracy scores per sample
+        f1_scores: List of F1 scores per sample
         inference_times: Dictionary of inference times
         vram_usage: Dictionary of VRAM usage
         test_dataset: Test dataset
@@ -162,6 +281,8 @@ def log_metrics_to_excel(
         time_taken = inference_times.get(idx, 0.0)
         vram = vram_usage.get(idx, 0.0)
         kie = kie_scores[i] if i < len(kie_scores) else 0.0
+        field_acc = field_accuracy_scores[i] if i < len(field_accuracy_scores) else 0.0
+        f1 = f1_scores[i] if i < len(f1_scores) else 0.0
 
         # Get image from dataset
         sample_item = test_dataset[idx]
@@ -192,6 +313,8 @@ def log_metrics_to_excel(
             "ground_truth": caption_text,
             "prediction": pred,
             "kie_score": kie,
+            "field_accuracy": field_acc,
+            "f1_score": f1,
             "inference_time_s": time_taken,
             "vram_usage_mb": vram,
         }
@@ -223,8 +346,10 @@ def log_metrics_to_excel(
     worksheet.set_column(4, 4, 40)  # ground_truth
     worksheet.set_column(5, 5, 40)  # prediction
     worksheet.set_column(6, 6, 12)  # kie_score
-    worksheet.set_column(7, 7, 15)  # inference_time_s
-    worksheet.set_column(8, 8, 15)  # vram_usage_mb
+    worksheet.set_column(7, 7, 15)  # field_accuracy
+    worksheet.set_column(8, 8, 12)  # f1_score
+    worksheet.set_column(9, 9, 15)  # inference_time_s
+    worksheet.set_column(10, 10, 15)  # vram_usage_mb
 
     writer.close()
 
@@ -232,11 +357,15 @@ def log_metrics_to_excel(
 
     # Calculate summary stats
     avg_kie = sum(kie_scores) / len(kie_scores) if kie_scores else 0.0
+    avg_field_acc = sum(field_accuracy_scores) / len(field_accuracy_scores) if field_accuracy_scores else 0.0
+    avg_f1 = sum(f1_scores) / len(f1_scores) if f1_scores else 0.0
     avg_time = sum(inference_times.values()) / len(inference_times) if inference_times else 0.0
     avg_vram = sum(vram_usage.values()) / len(vram_usage) if vram_usage else 0.0
 
     print(f"\n📊 Summary Statistics:")
-    print(f"   - Average KIE Score: {avg_kie:.4f}")
+    print(f"   - Average KIE Score (Levenshtein): {avg_kie:.4f}")
+    print(f"   - Average Field Accuracy (Exact Match): {avg_field_acc:.4f}")
+    print(f"   - Average F1 Score: {avg_f1:.4f}")
     print(f"   - Average Inference Time: {avg_time:.3f}s")
     print(f"   - Average VRAM Usage: {avg_vram:.2f} MB")
 
@@ -248,6 +377,8 @@ def log_metrics_to_wandb(
     predictions: Dict[int, str],
     ground_truths: Dict[int, str],
     kie_scores: List[float],
+    field_accuracy_scores: List[float],
+    f1_scores: List[float],
     inference_times: Dict[int, float],
     vram_usage: Dict[int, float],
     test_dataset,
@@ -265,6 +396,8 @@ def log_metrics_to_wandb(
         predictions: Dictionary of predictions
         ground_truths: Dictionary of ground truths
         kie_scores: List of KIE scores per sample
+        field_accuracy_scores: List of field-level accuracy scores per sample
+        f1_scores: List of F1 scores per sample
         inference_times: Dictionary of inference times
         vram_usage: Dictionary of VRAM usage
         test_dataset: Test dataset
@@ -284,18 +417,23 @@ def log_metrics_to_wandb(
 
         # Log summary metrics
         avg_kie = sum(kie_scores) / len(kie_scores) if kie_scores else 0.0
+        avg_field_acc = sum(field_accuracy_scores) / len(field_accuracy_scores) if field_accuracy_scores else 0.0
+        avg_f1 = sum(f1_scores) / len(f1_scores) if f1_scores else 0.0
         avg_time = sum(inference_times.values()) / len(inference_times) if inference_times else 0.0
         avg_vram = sum(vram_usage.values()) / len(vram_usage) if vram_usage else 0.0
 
         wandb.log({
             "avg_kie_score": avg_kie,
+            "avg_field_accuracy": avg_field_acc,
+            "avg_f1_score": avg_f1,
             "avg_inference_time_s": avg_time,
             "avg_vram_usage_mb": avg_vram,
         })
 
         # Create table
         table_cols = ["sample_index", "image", "prediction", "ground_truth",
-                      "kie_score", "inference_time_s", "vram_usage_mb", "prompt"]
+                      "kie_score", "field_accuracy", "f1_score",
+                      "inference_time_s", "vram_usage_mb", "prompt"]
         wandb_table = wandb.Table(columns=table_cols)
 
         for i, idx in enumerate(sample_indices):
@@ -304,6 +442,8 @@ def log_metrics_to_wandb(
             time_taken = inference_times.get(idx, 0.0)
             vram = vram_usage.get(idx, 0.0)
             kie = kie_scores[i] if i < len(kie_scores) else 0.0
+            field_acc = field_accuracy_scores[i] if i < len(field_accuracy_scores) else 0.0
+            f1 = f1_scores[i] if i < len(f1_scores) else 0.0
 
             # Get image
             sample_item = test_dataset[idx]
@@ -329,7 +469,8 @@ def log_metrics_to_wandb(
             else:
                 gt_str = str(gt)
 
-            wandb_table.add_data(idx, wb_image, pred, gt_str, kie, time_taken, vram, prompt)
+            wandb_table.add_data(idx, wb_image, pred, gt_str, kie, field_acc, f1,
+                               time_taken, vram, prompt)
 
         wandb.log({"evaluation_table": wandb_table})
         wandb.finish()
@@ -391,10 +532,14 @@ if __name__ == "__main__":
 
     # Evaluate
     print("\n🔄 Evaluating predictions...")
-    avg_score, per_sample_scores = evaluate_kie_predictions(pred_list, gt_list)
+    (avg_lev, per_sample_lev,
+     avg_field_acc, per_sample_field_acc,
+     avg_f1, per_sample_f1) = evaluate_kie_predictions(pred_list, gt_list)
 
     print(f"✅ Evaluation complete!")
-    print(f"   - Average KIE Score: {avg_score:.4f}")
+    print(f"   - Average KIE Score (Levenshtein): {avg_lev:.4f}")
+    print(f"   - Average Field Accuracy (Exact Match): {avg_field_acc:.4f}")
+    print(f"   - Average F1 Score: {avg_f1:.4f}")
 
     # Load test dataset for images
     from datasets import load_from_disk
@@ -407,7 +552,9 @@ if __name__ == "__main__":
         sample_indices,
         predictions,
         ground_truths,
-        per_sample_scores,
+        per_sample_lev,
+        per_sample_field_acc,
+        per_sample_f1,
         inference_times,
         vram_usage,
         test_dataset,
@@ -423,7 +570,9 @@ if __name__ == "__main__":
             sample_indices,
             predictions,
             ground_truths,
-            per_sample_scores,
+            per_sample_lev,
+            per_sample_field_acc,
+            per_sample_f1,
             inference_times,
             vram_usage,
             test_dataset,
