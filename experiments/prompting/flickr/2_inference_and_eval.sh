@@ -200,7 +200,7 @@ for i, (key, prompt) in enumerate(data):
     PROMPT_TEMP_FILE=$(mktemp)
     echo "$PROMPT_TEXT" > "$PROMPT_TEMP_FILE"
 
-    python inference.py \
+    python Inference.py \
         --model-path "$MODEL_PATH" \
         $LOAD_FROM_HF_FLAG \
         --base-model "$BASE_MODEL" \
