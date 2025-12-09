@@ -1,64 +1,50 @@
 #!/bin/bash
 # ============================================================================
 # This script runs inference on fine-tuned models and evaluates them
-# on the Flickr30k dataset using CIDEr.
-# It loops over all prompts in prompts.yml and evaluates each corresponding
-# (base or adapter) model.
+# on the Flickr30k dataset using CIDEr, SPICE, and Cosine similarity.
+# Loops over all prompts in prompts.yml and evaluates each corresponding model.
 #
 # Usage:
 #   - For LOCAL models: Leave HF_MODEL_REPO empty, models loaded from BASE_MODEL
 #   - For HF adapter models: Set HF_MODEL_REPO to the full repository path
-#                            Example: "VLM/flickr30k-finetune"
 # ============================================================================
-
 set -e  # Stop on any error
 
-# Model configuration
+# ------------------------- CONFIGURATION -------------------------
 BASE_MODEL="unsloth/gemma-3-12b-it"
 TEST_DATASET="./flickr30k_splits/test"
 MODEL_DIR_BASE="./flickr30k_finetuned"
 OUTPUT_DIR="./flickr30k_results"
 
-# HuggingFace model repository (full path for direct loading as adapter)
-# Set the full repository path directly, e.g., "yourname/flickr30k-finetune"
-HF_MODEL_REPO=""  # Leave empty to load just BASE_MODEL (no adapter)
+# HuggingFace adapter repo (leave empty if not using)
+HF_MODEL_REPO=""
 
 # Inference parameters
 MAX_NEW_TOKENS=256
-SAMPLE_INDICES=""  # Empty = all samples, or specify comma-separated indices like "0,1,2,3,4"
+SAMPLE_INDICES=""  # Empty = all samples, or specify comma-separated indices like "0,1,2,3"
 
 # Evaluation parameters
-MODEL_NAME="gemma-3-12b-it"  # Model name for logging
+MODEL_NAME="gemma-3-12b-it"
 USE_WANDB=false
 WANDB_ENTITY="vlm-research"
 WANDB_PROJECT="flickr-inferencing"
-WANDB_RUN_NAME_PREFIX="base_model_inference"  # Prefix for WandB run names
+WANDB_RUN_NAME_PREFIX="base_model_inference"
 
 # Prompts file
 PROMPTS_FILE="prompts.yml"
 
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
+# Optional: use max over references instead of average
+USE_MAX_REF=false  # Default false (average)
 
-# Function to extract prompts from YAML file
+# ------------------------- HELPER FUNCTIONS -------------------------
 extract_prompts() {
     python3 << 'EOF'
-import yaml
-import sys
+import yaml, json, sys
 
 try:
     with open("prompts.yml", "r") as f:
-        prompts_data = yaml.safe_load(f)
-
-    prompts = []
-    for key, value in prompts_data.items():
-        if isinstance(value, dict) and "text" in value:
-            prompt_text = value["text"].strip()
-            prompts.append((key, prompt_text))
-
-    # Output as JSON for easier parsing in bash
-    import json
+        data = yaml.safe_load(f)
+    prompts = [(k, v["text"].strip()) for k, v in data.items() if isinstance(v, dict) and "text" in v]
     print(json.dumps(prompts))
 except Exception as e:
     print(f"Error: {e}", file=sys.stderr)
@@ -66,12 +52,9 @@ except Exception as e:
 EOF
 }
 
-# ============================================================================
-# MAIN EXECUTION
-# ============================================================================
-
+# ------------------------- MAIN EXECUTION -------------------------
 echo "============================================================================"
-echo "🚀 Flickr30k Inference and Evaluation Script"
+echo "🚀 Flickr30k Inference and Evaluation (CIDEr + SPICE + Cosine)"
 echo "============================================================================"
 echo ""
 echo "Configuration:"
@@ -98,6 +81,7 @@ if [ "$USE_WANDB" = true ]; then
     echo "  - WandB Project: $WANDB_PROJECT"
     echo "  - WandB Run Name Prefix: $WANDB_RUN_NAME_PREFIX"
 fi
+echo "  - Use Max Ref: $USE_MAX_REF (default=false = average over refs)"
 echo ""
 echo "============================================================================"
 echo ""
@@ -187,11 +171,9 @@ for i, (key, prompt) in enumerate(data):
 
     # Determine model path
     if [ -n "$HF_MODEL_REPO" ]; then
-        # Use the directly specified HuggingFace repository (as adapter)
         MODEL_PATH="$HF_MODEL_REPO"
         LOAD_FROM_HF_FLAG="--load-from-hf"
     else
-        # Use just the base model (no adapter)
         MODEL_PATH="$BASE_MODEL"
         LOAD_FROM_HF_FLAG=""
     fi
@@ -228,17 +210,16 @@ for i, (key, prompt) in enumerate(data):
         --max-new-tokens $MAX_NEW_TOKENS \
         --output-dir "$INFERENCE_OUTPUT_DIR"
 
-    # Clean up temp file
     rm -f "$PROMPT_TEMP_FILE"
 
     echo "✅ Inference complete!"
     echo ""
 
     # ========================================================================
-    # Step 2: Run Evaluation (CIDEr)
+    # Step 2: Run Evaluation (CIDEr + SPICE + Cosine)
     # ========================================================================
 
-    echo "🔄 Running CIDEr evaluation..."
+    echo "🔄 Running evaluation (CIDEr + SPICE + Cosine)..."
 
     # Generate unique WandB run name
     TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
@@ -255,10 +236,14 @@ for i, (key, prompt) in enumerate(data):
         EVAL_CMD="$EVAL_CMD --use-wandb --wandb-project \"$WANDB_PROJECT\" --wandb-run-name \"$WANDB_RUN_NAME\""
     fi
 
+    # Add max-ref flag if USE_MAX_REF is true
+    if [ "$USE_MAX_REF" = true ]; then
+        EVAL_CMD="$EVAL_CMD --use-max-ref"
+    fi
+
     eval $EVAL_CMD
 
-    echo "✅ Evaluation complete!"
-    echo "   Results saved to: $EVAL_EXCEL"
+    echo "✅ Evaluation complete! Results saved to: $EVAL_EXCEL"
     echo ""
 done
 
@@ -272,5 +257,5 @@ echo ""
 echo "Summary of outputs:"
 ls -lh "$OUTPUT_DIR"/*.xlsx 2>/dev/null || echo "No Excel files found."
 echo ""
-echo "You can now review the CIDEr scores and predictions in the Excel files."
+echo "You can now review the CIDEr, SPICE, and Cosine scores in the Excel files."
 echo ""

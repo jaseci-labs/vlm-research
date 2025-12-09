@@ -19,8 +19,8 @@ pip install pandas
 pip install sentence-transformers>=2.2.2
 pip install XlsxWriter
 pip install openpyxl
-pip install git+https://github.com/salaniz/
-pip install pandas pillow xlsxwriter tqdm datasets
+pip install git+https://github.com/salaniz/pycocoevalcap
+pip install pandas pillow xlsxwriter tqdm datasets sentence-transformers
 python -m ipykernel install --user --name=unsloth_env --display-name "Python (unsloth_env)"
 pip install "datasets<4.0.0" "huggingface_hub<0.26.0" pandas    #newly added
 
