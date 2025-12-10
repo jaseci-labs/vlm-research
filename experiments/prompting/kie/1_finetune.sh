@@ -14,7 +14,7 @@ EVAL_DATASET="./kie_splits/eval"
 SAVE_DIR_BASE="./kie_finetuned"
 
 # HuggingFace upload (set to true to enable)
-UPLOAD_TO_HF=ture
+UPLOAD_TO_HF=false
 HF_TOKEN=""  # Add your HuggingFace token here
 HF_REPO_BASE=""  # Base repo ID (e.g., "Gayanukaa/vlm-finetunes")
                  # Models will be saved as: {HF_REPO_BASE}-{prompt_key}
