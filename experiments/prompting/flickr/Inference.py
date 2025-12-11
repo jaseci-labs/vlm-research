@@ -21,8 +21,13 @@ import re
 from io import BytesIO
 
 
+<<<<<<< HEAD
 
+=======
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 # Utility Functions
+# ---------------------------------------------------------------------
 
 def clean_text_output(raw_output: str) -> str:
     """
@@ -39,8 +44,13 @@ def clean_text_output(raw_output: str) -> str:
     return cleaned.strip()
 
 
+<<<<<<< HEAD
 
+=======
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 # Single Image Inference
+# ---------------------------------------------------------------------
 
 def run_inference(
     image: PILImage.Image,
@@ -120,8 +130,13 @@ def run_inference(
         return "", 0.0, 0.0
 
 
+<<<<<<< HEAD
 
+=======
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 # Warmup Function
+# ---------------------------------------------------------------------
 
 def run_warmup(
     model,
@@ -159,8 +174,14 @@ def run_warmup(
     print("✅ Warmup complete! CUDA kernels initialized.\n")
 
 
+<<<<<<< HEAD
 
 # Load Model
+=======
+# ---------------------------------------------------------------------
+# Load Model
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 
 def load_model(
     model_path: str,
@@ -200,8 +221,13 @@ def load_model(
     return model, tokenizer
 
 
+<<<<<<< HEAD
 
+=======
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 # Batch Inference
+# ---------------------------------------------------------------------
 
 def run_inference_batch(
     model,
@@ -284,8 +310,13 @@ def run_inference_batch(
     return predictions, ground_truths, inference_times, vram_usage
 
 
+<<<<<<< HEAD
 
+=======
+# ---------------------------------------------------------------------
+>>>>>>> bb1b6c9b1d4d3aacdfccc7a984bbf0e6282ec4e2
 # Main Script
+# ---------------------------------------------------------------------
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flickr30k Inference Script")
