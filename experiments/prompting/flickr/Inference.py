@@ -5,9 +5,7 @@ Flickr30k Inference Script
 This script runs inference on a vision-language model for the Flickr30k dataset.
 It generates captions for images, measures inference metrics, and saves results
 to a JSON file. Supports both local models and HuggingFace-hosted models.
-
 """
-
 
 import argparse
 import json
@@ -21,6 +19,7 @@ from unsloth import FastVisionModel
 from transformers import TextIteratorStreamer
 import re
 from io import BytesIO
+
 
 
 # Utility Functions
@@ -38,6 +37,7 @@ def clean_text_output(raw_output: str) -> str:
     """
     cleaned = re.sub(r'```.*?```', '', raw_output, flags=re.DOTALL)
     return cleaned.strip()
+
 
 
 # Single Image Inference
@@ -94,8 +94,8 @@ def run_inference(
                 "use_cache": True,
                 "do_sample": False,  # Greedy decoding
                 "top_p": 1.0,
-                "top_k": 0
-            }
+                "top_k": 0,
+            },
         )
         thread.start()
 
@@ -118,6 +118,7 @@ def run_inference(
     except Exception as e:
         print(f"❌ Error during inference: {e}")
         return "", 0.0, 0.0
+
 
 
 # Warmup Function
@@ -148,7 +149,7 @@ def run_warmup(
             model,
             tokenizer,
             warmup_prompt,
-            max_new_tokens=32  # Short output for faster warmup
+            max_new_tokens=32,  # Short output for faster warmup
         )
         print(f"done ({warmup_time:.2f}s)")
 
@@ -158,8 +159,8 @@ def run_warmup(
     print("✅ Warmup complete! CUDA kernels initialized.\n")
 
 
-# Load Model
 
+# Load Model
 
 def load_model(
     model_path: str,
@@ -182,7 +183,7 @@ def load_model(
         model, tokenizer = FastVisionModel.from_pretrained(
             base_model,
             load_in_4bit=True,
-            use_gradient_checkpointing="unsloth"
+            use_gradient_checkpointing="unsloth",
         )
         print(f"🔄 Applying adapter from: {model_path}")
         model.load_adapter(model_path)
@@ -191,12 +192,13 @@ def load_model(
         model, tokenizer = FastVisionModel.from_pretrained(
             model_path,
             load_in_4bit=True,
-            use_gradient_checkpointing="unsloth"
+            use_gradient_checkpointing="unsloth",
         )
 
     model.eval()
     print("✅ Model loaded successfully.")
     return model, tokenizer
+
 
 
 # Batch Inference
@@ -243,17 +245,20 @@ def run_inference_batch(
         sample = test_dataset[idx]
 
         # Load PIL image from bytes if necessary
-        if isinstance(sample['image'], bytes):
-            image = PILImage.open(BytesIO(sample['image']))
+        if isinstance(sample["image"], bytes):
+            image = PILImage.open(BytesIO(sample["image"]))
         else:
-            image = sample['image']
+            image = sample["image"]
 
         # Run single-image inference
         pred, inf_time, vram = run_inference(image, model, tokenizer, prompt, max_new_tokens)
         predictions[idx] = pred
 
-        # Save ground truth captions
-        # Flickr30k uses 'caption' field (list of 5 refs)
+        # ✅ Store metrics so evaluate.py can read them
+        inference_times[idx] = float(inf_time)
+        vram_usage[idx] = float(vram)
+
+        # Save ground truth captions (Flickr30k has list of 5 refs)
         captions = sample.get("caption", [])
         if isinstance(captions, list):
             refs = [str(c) for c in captions]
@@ -277,6 +282,7 @@ def run_inference_batch(
         torch.cuda.synchronize()
 
     return predictions, ground_truths, inference_times, vram_usage
+
 
 
 # Main Script
@@ -323,7 +329,7 @@ if __name__ == "__main__":
         args.prompt,
         sample_indices,
         args.max_new_tokens,
-        skip_warmup=args.skip_warmup
+        skip_warmup=args.skip_warmup,
     )
 
     # Save results
@@ -338,11 +344,10 @@ if __name__ == "__main__":
         "predictions": predictions,
         "ground_truths": ground_truths,
         "inference_times": inference_times,
-        "vram_usage": vram_usage
+        "vram_usage": vram_usage,
     }
 
     with open(output_file, "w") as f:
         json.dump(results, f, indent=4)
 
     print(f"\n💾 Results saved to: {output_file}")
-
