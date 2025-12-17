@@ -104,12 +104,11 @@ masked:
 noisy:
   name: "Noisy Prompt"
   text: |
-    Ok so, here's this kinda messy bill/receipt scan we have.
-    just extract the important bits.
-
-    Dump all that neatly into JSON, no chit chat.
-    
-    Document (image input): {image_input}
+    ok so like what even is this??
+    numbers?? names?? money stuff?? idk
+    just tell the important things i guess
+    json pls. no yapping.
+    thingy (image): {image_input}
 
 cot:
   name: "Chain of Thought Prompt"
