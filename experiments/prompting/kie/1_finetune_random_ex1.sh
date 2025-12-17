@@ -5,6 +5,7 @@
 # Trains ONE model on KIE using MULTIPLE prompts mixed per-sample.
 # Prompt assignment: random_quota (exact quotas).
 # Writes: prompt_assignment.json
+# Then prints: prompt_key -> indexes={1,20,57,...} (1-based)
 # ============================================================================
 
 set -euo pipefail
@@ -26,11 +27,11 @@ PYTHON_BIN="python3"
 
 # HuggingFace upload
 UPLOAD_TO_HF=false
-HF_REPO_ID=""   # Add your HuggingFace token here
-HF_TOKEN_SCRIPT=""  # Base repo ID (e.g., "Hirudika2002/vlm-finetunes")
+HF_TOKEN=""  # Add your HuggingFace token here
+REPO_ID=""      # Base repo ID (e.g., "Hirudika2002/vlm-finetunes")
 
 
-# WandB logging
+# WandB logging (optional)
 USE_WANDB=false
 WANDB_ENTITY="vlm-research"
 WANDB_PROJECT="kie-finetuning-random-ex1"
@@ -41,6 +42,7 @@ WANDB_RUN_NAME_PREFIX="kie_equalmix_randomquota"
 LORA_R=8
 LORA_ALPHA=8
 LORA_DROPOUT=0.01
+
 
 # Training hyperparameters
 LEARNING_RATE=2e-4
@@ -57,6 +59,7 @@ SEED=3407
 
 
 # Prompts file
+
 PROMPTS_FILE=""
 if [ -f "prompts.yaml" ]; then
   PROMPTS_FILE="prompts.yaml"
@@ -73,8 +76,7 @@ PROMPT_ASSIGNMENT_OUT="${SAVE_DIR}/prompt_assignment.json"
 export PROMPT_ASSIGNMENT_OUT
 
 
-# MAIN EXECUTION
-
+# Logging header 
 
 echo "============================================================================"
 echo "🚀 KIE Fine-tuning Script (ONE RUN - Equal Prompt Mix / Random Quota)"
@@ -108,17 +110,16 @@ echo "  - Prompts File: $PROMPTS_FILE"
 echo "  - Assignment Mode: $PROMPT_ASSIGNMENT"
 echo "  - Prompt Seed: $PROMPT_SEED"
 echo ""
-echo "Upload:"
-echo "  - Upload to HF: $UPLOAD_TO_HF"
+echo "HuggingFace Upload: $UPLOAD_TO_HF"
 if [ "$UPLOAD_TO_HF" = true ]; then
-  echo "  - Repo: $HF_REPO_ID"
+  echo "  - Repo ID: $REPO_ID"
 fi
 echo ""
-echo "WandB Logging:"
-echo "  - Enabled: $USE_WANDB"
+echo "WandB Logging: $USE_WANDB"
 if [ "$USE_WANDB" = true ]; then
   echo "  - Entity: $WANDB_ENTITY"
   echo "  - Project: $WANDB_PROJECT"
+  echo "  - Run Name Prefix: $WANDB_RUN_NAME_PREFIX"
 fi
 echo ""
 echo "============================================================================"
@@ -148,24 +149,23 @@ if [ ! -d "$EVAL_DATASET" ]; then
 fi
 
 if [ ! -f "$PROMPTS_FILE" ]; then
-  echo "❌ Error: Prompts file not found."
+  echo "❌ Error: Prompts file not found (expected prompts.yaml or prompts.yml)."
   exit 1
 fi
 
 mkdir -p "$SAVE_DIR"
 
 
-# Flags
+# Build flags 
 
 FP16_FLAG=""
 if [ "$FP16" = true ]; then
   FP16_FLAG="--fp16"
 fi
 
-HF_TOKEN_VALUE="${HF_TOKEN:-$HF_TOKEN_SCRIPT}"
 HF_FLAGS=""
-if [ "$UPLOAD_TO_HF" = true ] && [ -n "$HF_REPO_ID" ] && [ -n "$HF_TOKEN_VALUE" ]; then
-  HF_FLAGS="--upload-to-hf --hf-token $HF_TOKEN_VALUE --repo-id $HF_REPO_ID"
+if [ "$UPLOAD_TO_HF" = true ] && [ -n "$REPO_ID" ] && [ -n "$HF_TOKEN" ]; then
+  HF_FLAGS="--upload-to-hf --hf-token $HF_TOKEN --repo-id $REPO_ID"
 fi
 
 WANDB_FLAGS=""
@@ -176,7 +176,8 @@ if [ "$USE_WANDB" = true ]; then
 fi
 
 
-# Training 
+# Training (ONE RUN)
+
 echo "============================================================================"
 echo "🔄 Starting ONE fine-tuning run..."
 echo "============================================================================"
@@ -210,7 +211,6 @@ echo ""
 
 
 # Post-run report
-
 echo ""
 echo "============================================================================"
 echo "📌 Prompt → Training image indexes (1-based)"
@@ -218,12 +218,13 @@ echo "==========================================================================
 
 if [ ! -f "$PROMPT_ASSIGNMENT_OUT" ]; then
   echo "❌ Error: $PROMPT_ASSIGNMENT_OUT not found."
+  echo "   finetune_random_ex1.py must have saved prompt_assignment.json."
   exit 1
 fi
 
 "$PYTHON_BIN" - <<'EOF'
 import json, os
-path = os.environ.get("PROMPT_ASSIGNMENT_OUT")
+path = os.environ.get("PROMPT_ASSIGNMENT_OUT", "")
 with open(path, "r", encoding="utf-8") as f:
     data = json.load(f)
 assignments = data.get("assignments", {})
