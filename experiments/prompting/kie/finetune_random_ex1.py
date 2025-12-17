@@ -111,9 +111,9 @@ def make_random_quota_assignment(n_samples: int, prompt_keys, seed: int):
     return quotas, assignments
 
 
-# ------------------------------------------
+
 # Core training function (modified)
-# ------------------------------------------
+
 def finetune_model(
     model_name: str,
     train_dataset_path: str,
@@ -221,9 +221,9 @@ def finetune_model(
     n_eval = len(eval_dataset)
     print(f"✅ Evaluation dataset loaded: {n_eval} samples")
 
-    # ----------------------------
+    
     # Decide prompts mode
-    # ----------------------------
+    
     use_multi_prompts = prompts_file is not None and str(prompts_file).strip() != ""
 
     if use_multi_prompts:
@@ -276,9 +276,9 @@ def finetune_model(
             raise ValueError("You must provide either --prompt OR --prompts-file.")
         print(f"\n✅ Using single prompt mode (same prompt for all training samples).")
 
-    # ----------------------------
+    
     # Convert samples -> conversation format
-    # ----------------------------
+    
     def convert_to_conversation(sample, prompt_text: str):
         """Convert KIE sample to conversation format for Unsloth."""
         from PIL import Image
@@ -316,20 +316,47 @@ def finetune_model(
 
     print("\n🔄 Converting datasets to conversation format...")
 
+
     if use_multi_prompts:
         converted_train = [
             convert_to_conversation(train_dataset[i], prompt_for_index[i])
             for i in range(n_train)
         ]
-        # Eval: simplest is to use FIRST prompt for all eval samples (stable evaluation).
-        # If you want mixed eval prompts too, tell me and I’ll modify.
-        eval_prompt_text = prompt_texts[0]
-        converted_eval = [convert_to_conversation(s, eval_prompt_text) for s in eval_dataset]
-        print(f"✅ Train converted with mixed prompts. Eval converted with first prompt: '{prompt_keys[0]}'")
+    
+        #   Eval: random_quota assignment too (equal counts, reproducible)
+        eval_quotas, eval_assignments = make_random_quota_assignment(
+            n_samples=n_eval,
+            prompt_keys=prompt_keys,
+            seed=prompt_seed + 1  # use different seed stream than train
+        )
+    
+        # Build per-index eval prompt lookup
+        eval_prompt_for_index = [None] * n_eval
+        key_to_text = dict(zip(prompt_keys, prompt_texts))
+        for key, idxs in eval_assignments.items():
+            for i in idxs:
+                eval_prompt_for_index[i] = key_to_text[key]
+    
+        if any(p is None for p in eval_prompt_for_index):
+            raise RuntimeError("Eval prompt assignment failed: some eval indices have no prompt assigned.")
+    
+        converted_eval = [
+            convert_to_conversation(eval_dataset[i], eval_prompt_for_index[i])
+            for i in range(n_eval)
+        ]
+    
+        print("✅ Train converted with mixed prompts (random_quota).")
+        print("✅ Eval converted with mixed prompts (random_quota).")
+        print("📌 Eval prompt quotas:")
+        for k in prompt_keys:
+            print(f"   - {k}: {eval_quotas[k]}")
+
     else:
         converted_train = [convert_to_conversation(s, prompt) for s in train_dataset]
         converted_eval = [convert_to_conversation(s, prompt) for s in eval_dataset]
         print("✅ Train/Eval converted with single prompt.")
+
+
 
     FastVisionModel.for_training(model)
 
@@ -547,7 +574,7 @@ if __name__ == "__main__":
     parser.add_argument("--max-steps", type=int, default=100,
                         help="Maximum training steps")
 
-    # Keep your old behavior (still works with your .sh)
+    
     parser.add_argument("--fp16", action="store_true", default=True,
                         help="Use FP16 precision")
 
