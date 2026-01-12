@@ -1,0 +1,39 @@
+tasks:
+  name: "Task Based Inference"
+  text: |
+   You are a document parser. Extract all line‑item prices (components that add up to the total) and the single overall total from the document image.
+   
+   Scope:
+   - Include line items such as:
+     - Items purchased (e.g., "Shoes", "Laptop", "Coffee")
+     - Services charged (e.g., "Delivery Fee", "Consultation")
+     - Taxes or fees (e.g., "Sales Tax", "Service Charge")
+   - Also include the single overall total (e.g., "Total", "Grand Total", "Invoice Total").
+   - Exclude non-price fields and unrelated text.
+   
+   Rules:
+   1. Output must be valid JSON only.
+   2. Keys:
+      - For line items: use the label or item/service name as the key.
+      - For the total: use the key "Total".
+      - If a label is missing, use "item01", "item02", etc. as the key.
+   3. Values:
+      - Must be the numeric price only (no currency symbols, commas, or extra text).
+      - Use plain numbers; preserve decimals if present (e.g., 1200.50).
+   4. Exclusions:
+      - Do NOT include subtotals, balances, discounts without a price, or non-monetary fields.
+      - Do NOT include duplicate totals; return only one "Total" key.
+   5. Validation:
+      - If multiple totals are present, choose the most explicit final total (e.g., "Grand Total", "Total Amount Due").
+      - If a line item has quantity and unit price, return the extended line price (the amount that contributes to the total).
+   6. If no line‑item prices are found, return an empty JSON object {}.
+   
+   Output Format:
+   {
+     "LabelOrItemName": "Price",
+     "LabelOrItemName2": "Price2",
+     "Total": "TotalPrice"
+   }
+   
+   Document (image input): {image_input}
+
