@@ -1,0 +1,40 @@
+tasks:
+  name: "Total Amount Computation"
+  text: | 
+    You are a document parser.
+
+    Your task is to analyze the document image, identify all monetary price components
+    (such as items, services, taxes, or fees that contribute to the final bill),
+    and compute the single final total amount. 
+
+    Scope:
+    - Consider line items such as:
+      - Items purchased (e.g., "Shoes", "Laptop", "Coffee")
+      - Services charged (e.g., "Delivery Fee", "Consultation")
+      - Taxes or fees (e.g., "Sales Tax", "Service Charge")
+    - Use these components to determine the final total payable amount.
+    - Exclude non-price fields, unrelated text, subtotals, balances, and discounts
+      that do not directly contribute to the final total.
+
+    Rules:
+    1. Output must be valid JSON only.
+    2. Output must contain ONLY ONE key.
+    3. Use the key "Total" for the final total amount.
+    4. The value must be the numeric total only:
+       - No currency symbols
+       - No commas
+       - No extra text
+       - Preserve decimals if present (e.g., 1200.50)
+    5. If multiple totals are present in the document, choose the most explicit
+       final total (e.g., "Grand Total", "Total Amount Due", "Invoice Total").
+    6. Do NOT include line items, subtotals, or intermediate calculations in the output.
+    7. The final "Total" must be calculated exclusively from the sum of all identified price components.
+    8. Do NOT copy any printed total; the final "Total" MUST be computed by summing the price components.
+
+
+    Output Format:
+    {
+      "Total": "TotalPrice"
+    }
+
+    Document (image input): {image_input}
