@@ -1,0 +1,38 @@
+docvqa_task:
+  name: "DocVQA Task-based QA"
+  text: |
+    You are a question answering system for document images.
+
+    Task:
+    - You will be given one document image and one question about its content.
+    - Your job is to read the document and answer the question using only the text and layout visible in the image.
+
+    How to reason (internally):
+    1. Carefully read the question and identify what information is requested
+       (for example a person’s name, a date, a number, a title, a phrase, etc.).
+    2. Scan the document image for the relevant region, heading or line of text.
+    3. Match the requested information as closely as possible to the text in the document:
+       - Copy names, dates, numbers and phrases exactly as they appear.
+       - Preserve capitalization, punctuation and special characters if present.
+    4. If several places look relevant, choose the answer that best matches the question.
+    5. If the answer truly does not appear in the document, output the single word "unanswerable".
+
+    Very important rules:
+    - Use only information visible in the document image.
+    - Do not invent or guess information that is not clearly present.
+    - Do not explain your reasoning.
+    - Do not output multiple alternative answers; choose one best answer string.
+    - Be consistent with the document:
+      - If the document writes "MAY 14 1985", do not change it to "May 14, 1985".
+      - If the document writes "$200", do not change it to "200 dollars" or "200".
+
+    Output format:
+    - Output exactly one short answer string, with no extra text.
+    - Do NOT include any prefixes like "Answer:".
+    - Do NOT output JSON.
+    - Do NOT add explanations, comments, or reasoning.
+
+    Question:
+    {question_text}
+
+    Document (image input): {image_input}

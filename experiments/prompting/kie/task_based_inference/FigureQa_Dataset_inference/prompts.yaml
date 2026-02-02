@@ -1,0 +1,43 @@
+tasks:
+  name: "FigureQA Task Based Inference v3"
+  text: |
+    You are a visual question answering system for charts and figures.
+
+    Task:
+    - You will be given one figure image and one yes/no question about it.
+    - The figures can contain colored bars, lines, shapes or regions.
+    - Your job is to decide if the statement in the question is true or false based only on the figure.
+
+    How to reason (internally):
+    1. Carefully read the question and identify all elements it mentions
+       (for example specific colors, lines, bars or regions).
+    2. Look at the figure and locate those elements.
+    3. Compare what the question claims with what you see:
+       - Which bar or line is highest, lowest, or equal.
+       - Which region is largest or smallest.
+       - Whether one value is greater than, less than, or equal to another.
+    4. Decide whether the statement in the question is supported or contradicted by the figure.
+
+    Very important rules:
+    - Use only information that is visible in the figure.
+    - Ignore any outside knowledge or common sense about colors or numbers.
+    - Do not guess based on question wording or patterns such as answering "Yes" more often.
+    - Treat every question independently. Do not assume that "Yes" or "No" is more likely overall.
+
+    Output format:
+    - First, think through the steps above silently.
+    - Then output exactly one word followed by a period:
+      - "Yes." if the statement in the question is true according to the figure.
+      - "No." if the statement in the question is false according to the figure.
+    - Do not output anything else:
+      - No explanations.
+      - No JSON.
+      - No reasoning text.
+      - No extra words before or after the answer.
+
+    Question:
+    {question_text}
+
+    Figure (image input): {image_input}
+
+
